@@ -1,7 +1,2 @@
-# hello Git!
-
-hehe
-
-git 1
-
-branch is quick
+# 学习python基础
+学习git基础
