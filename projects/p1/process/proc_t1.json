@@ -1,0 +1,10 @@
+{
+  "timestamp": "2024-05-10T00:00:00Z",
+  "device_id": "CNC-007",
+  "metrics": {
+    "temperature": 72.4,
+    "vibration": 3.1,
+    "power_consumption": 18.7
+  },
+  "status": "Normal"
+}

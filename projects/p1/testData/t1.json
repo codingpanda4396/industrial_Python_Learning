@@ -1,0 +1,10 @@
+{
+    "device_id": "CNC-007",
+    "timestamp": "2024-05-10T00:00:00Z",
+    "readings": {
+        "temp": 72.4,
+        "vib": 3.1,
+        "power": 18.7
+    },
+    "operation_mode": "AUTO"
+}
