@@ -4,6 +4,8 @@
 2. 多线程处理文件
 3. 记录详细日志
 4. 上报处理结果
+
+代码逻辑： 日志配置->定义处理单个文件的函数->定义上报数据的函数->多线程处理文件
 """
 
 import os
@@ -15,12 +17,12 @@ import requests
 
 # 日志配置
 logging.basicConfig(
-    level=logging.INFO,#
+    level=logging.INFO,#日志级别设置为INFO
     format='%(asctime)s [%(threadName)s] %(levelname)s: %(message)s',
     handlers=[
         logging.FileHandler("plc_pipeline.log"),
         logging.StreamHandler()
-    ]
+    ]   #输出到控制台、文件
 )
 
 API_URL = "http://industry-api.example.com/report"
@@ -75,7 +77,7 @@ def main():
         # 为每个文件创建处理线程
         thread = threading.Thread(
             target=lambda fp: (
-                # 处理文件
+                # 处理文件      
                 result := process_plc_file(fp),
                 # 上报结果
                 report_to_api(result),
