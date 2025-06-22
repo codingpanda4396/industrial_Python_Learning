@@ -11,7 +11,7 @@ def analyze_log(filepath):
 
 threads=[]
 results={}
-logfiles=os.listdir("")
+logfiles=os.listdir("")                                                             
 for logfile in logfiles:
     t=threading.Thread(target=analyze_log,args=(logfile,))
     t.start()
