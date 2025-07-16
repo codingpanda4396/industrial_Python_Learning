@@ -1,0 +1,50 @@
+2025-07-11 10:50:38,868 [MainThread] - INFO: ====== PLC数据采集系统启动 ======
+2025-07-11 10:50:38,871 [PLCThread-PLC-B02_20250711_103140_4544.json] - INFO: 开始处理: PLC-B02_20250711_103140_4544.json
+2025-07-11 10:50:38,871 [PLCThread-PLC-B03_20250711_103125_2359.json] - INFO: 开始处理: PLC-B03_20250711_103125_2359.json
+2025-07-11 10:50:38,872 [PLCThread-PLC-B05_20250711_103148_8674.json] - INFO: 开始处理: PLC-B05_20250711_103148_8674.json
+2025-07-11 10:50:38,872 [PLCThread-PLC-C04_20250711_103119_3547.json] - INFO: 开始处理: PLC-C04_20250711_103119_3547.json
+2025-07-11 10:50:40,046 [PLCThread-PLC-B02_20250711_103140_4544.json] - ERROR: API上报失败: 404 Client Error: Not Found for url: http://your-api.com/upload
+2025-07-11 10:50:40,272 [PLCThread-PLC-B05_20250711_103148_8674.json] - ERROR: API上报失败: 404 Client Error: Not Found for url: http://your-api.com/upload
+2025-07-11 10:50:40,330 [PLCThread-PLC-C04_20250711_103119_3547.json] - ERROR: API上报失败: 404 Client Error: Not Found for url: http://your-api.com/upload
+2025-07-11 10:50:40,345 [PLCThread-PLC-B03_20250711_103125_2359.json] - ERROR: API上报失败: 404 Client Error: Not Found for url: http://your-api.com/upload
+2025-07-11 10:50:40,345 [MainThread] - INFO: 本轮完成: 4个文件处理
+2025-07-11 10:50:40,346 [PLCThread-PLC-B02_20250711_103140_4544.json] - INFO: 开始处理: PLC-B02_20250711_103140_4544.json
+2025-07-11 10:50:40,346 [PLCThread-PLC-B03_20250711_103125_2359.json] - INFO: 开始处理: PLC-B03_20250711_103125_2359.json
+2025-07-11 10:50:40,346 [PLCThread-PLC-B05_20250711_103148_8674.json] - INFO: 开始处理: PLC-B05_20250711_103148_8674.json
+2025-07-11 10:50:40,347 [PLCThread-PLC-C04_20250711_103119_3547.json] - INFO: 开始处理: PLC-C04_20250711_103119_3547.json
+2025-07-11 10:50:41,157 [PLCThread-PLC-B05_20250711_103148_8674.json] - ERROR: API上报失败: 404 Client Error: Not Found for url: http://your-api.com/upload
+2025-07-11 10:50:41,246 [PLCThread-PLC-C04_20250711_103119_3547.json] - ERROR: API上报失败: 404 Client Error: Not Found for url: http://your-api.com/upload
+2025-07-11 10:50:41,292 [PLCThread-PLC-B03_20250711_103125_2359.json] - ERROR: API上报失败: 404 Client Error: Not Found for url: http://your-api.com/upload
+2025-07-11 10:50:42,240 [PLCThread-PLC-B02_20250711_103140_4544.json] - ERROR: API上报失败: 404 Client Error: Not Found for url: http://your-api.com/upload
+2025-07-11 10:50:42,240 [MainThread] - INFO: 本轮完成: 4个文件处理
+2025-07-11 10:50:42,241 [PLCThread-PLC-B02_20250711_103140_4544.json] - INFO: 开始处理: PLC-B02_20250711_103140_4544.json
+2025-07-11 10:50:42,241 [PLCThread-PLC-B03_20250711_103125_2359.json] - INFO: 开始处理: PLC-B03_20250711_103125_2359.json
+2025-07-11 10:50:42,241 [PLCThread-PLC-B05_20250711_103148_8674.json] - INFO: 开始处理: PLC-B05_20250711_103148_8674.json
+2025-07-11 10:50:42,241 [PLCThread-PLC-C04_20250711_103119_3547.json] - INFO: 开始处理: PLC-C04_20250711_103119_3547.json
+2025-07-11 10:50:43,732 [PLCThread-PLC-C04_20250711_103119_3547.json] - ERROR: API上报失败: 404 Client Error: Not Found for url: http://your-api.com/upload
+2025-07-11 10:50:43,820 [PLCThread-PLC-B03_20250711_103125_2359.json] - ERROR: API上报失败: 404 Client Error: Not Found for url: http://your-api.com/upload
+2025-07-11 10:50:43,917 [PLCThread-PLC-B05_20250711_103148_8674.json] - ERROR: API上报失败: 404 Client Error: Not Found for url: http://your-api.com/upload
+2025-07-11 10:50:45,721 [PLCThread-PLC-B02_20250711_103140_4544.json] - ERROR: API上报失败: 404 Client Error: Not Found for url: http://your-api.com/upload
+2025-07-11 10:50:45,721 [MainThread] - INFO: 本轮完成: 4个文件处理
+2025-07-11 10:50:45,722 [PLCThread-PLC-B02_20250711_103140_4544.json] - INFO: 开始处理: PLC-B02_20250711_103140_4544.json
+2025-07-11 10:50:45,722 [PLCThread-PLC-B03_20250711_103125_2359.json] - INFO: 开始处理: PLC-B03_20250711_103125_2359.json
+2025-07-11 10:50:45,722 [PLCThread-PLC-B05_20250711_103148_8674.json] - INFO: 开始处理: PLC-B05_20250711_103148_8674.json
+2025-07-11 10:50:45,722 [PLCThread-PLC-C04_20250711_103119_3547.json] - INFO: 开始处理: PLC-C04_20250711_103119_3547.json
+2025-07-11 10:50:47,204 [PLCThread-PLC-B05_20250711_103148_8674.json] - ERROR: API上报失败: 404 Client Error: Not Found for url: http://your-api.com/upload
+2025-07-11 10:50:47,324 [PLCThread-PLC-B02_20250711_103140_4544.json] - ERROR: API上报失败: 404 Client Error: Not Found for url: http://your-api.com/upload
+2025-07-11 10:50:47,391 [PLCThread-PLC-B03_20250711_103125_2359.json] - ERROR: API上报失败: 404 Client Error: Not Found for url: http://your-api.com/upload
+2025-07-11 10:50:48,722 [PLCThread-PLC-C04_20250711_103119_3547.json] - ERROR: API上报失败: 404 Client Error: Not Found for url: http://your-api.com/upload
+2025-07-11 10:50:48,722 [MainThread] - INFO: 本轮完成: 4个文件处理
+2025-07-11 10:50:48,723 [PLCThread-PLC-B02_20250711_103140_4544.json] - INFO: 开始处理: PLC-B02_20250711_103140_4544.json
+2025-07-11 10:50:48,723 [PLCThread-PLC-B03_20250711_103125_2359.json] - INFO: 开始处理: PLC-B03_20250711_103125_2359.json
+2025-07-11 10:50:48,723 [PLCThread-PLC-B05_20250711_103148_8674.json] - INFO: 开始处理: PLC-B05_20250711_103148_8674.json
+2025-07-11 10:50:48,723 [PLCThread-PLC-C04_20250711_103119_3547.json] - INFO: 开始处理: PLC-C04_20250711_103119_3547.json
+2025-07-11 10:58:40,243 [MainThread] - INFO: ====== PLC数据采集系统启动 ======
+2025-07-11 10:58:40,244 [PLCThread-PLC-B02_20250711_103140_4544.json] - INFO: 开始处理: PLC-B02_20250711_103140_4544.json
+2025-07-11 10:58:40,244 [PLCThread-PLC-B03_20250711_103125_2359.json] - INFO: 开始处理: PLC-B03_20250711_103125_2359.json
+2025-07-11 10:58:40,244 [PLCThread-PLC-B05_20250711_103148_8674.json] - INFO: 开始处理: PLC-B05_20250711_103148_8674.json
+2025-07-11 10:58:40,244 [PLCThread-PLC-C04_20250711_103119_3547.json] - INFO: 开始处理: PLC-C04_20250711_103119_3547.json
+2025-07-11 10:58:40,277 [MainThread] - INFO: 本轮完成: 4个文件处理
+2025-07-11 10:58:40,278 [MainThread] - INFO: 无待处理文件，等待5秒...
+2025-07-11 10:58:45,278 [MainThread] - INFO: 无待处理文件，等待5秒...
+2025-07-11 10:58:50,279 [MainThread] - INFO: 无待处理文件，等待5秒...
