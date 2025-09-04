@@ -38,7 +38,7 @@ class Statepoint:
     def __update_state(self):
         with self.lock: #加锁
             last_state = self.state #获取当前状态
-            self.state = self.converter(self.data) #将data转换为state
+            self.state = self.converter(self.data) #将data转换为state--核心逻辑
 
             #False->True  触发excite
             if last_state == False and self.state == True:
@@ -133,3 +133,24 @@ class Integration_speed_mpmin(Statepoint):
 
         return super().inject(data)
     
+
+if __name__ == "__main__":
+        # 创建状态点实例
+    sp = Statepoint(initvalue=0, initstate=False)
+
+    # 设置转换函数（根据数据值返回状态）
+    sp.set_convertor(lambda data: data > 50)
+
+    # 设置状态触发动作
+    sp.set_excite_action(lambda: print("状态被激活!"))
+    sp.set_reset_action(lambda: print("状态被重置!"))
+
+    # 设置保持时间（2秒）
+    sp.set_keep_time(2000)
+
+    # 注入数据
+    sp.inject(30)  # 状态保持False
+    sp.inject(60)  # 状态变为True，触发excite_action
+    sp.inject(40)  # 状态变为False，进入保持期
+    # 2秒内无新数据→触发reset_action
+    # 2秒内有True数据→取消重置，状态保持True
