@@ -7,7 +7,7 @@ from core.devices import Device
 from patterns.observer import Subject, DeviceMonitor, PerformanceMonitor
 import logging
 
-from projects.IoT_Simulator.config.settings import DeviceType
+from config.settings import DeviceType
 
 class DeviceManager(Subject):
     """设备管理器，负责管理所有设备线程和生命周期"""

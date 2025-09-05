@@ -1,5 +1,5 @@
 """应用配置设置"""
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
 from typing import List, Dict, Any
 
@@ -35,7 +35,7 @@ class MQTTConfig:
 
 @dataclass
 class AppConfig:
-    mqtt: MQTTConfig = MQTTConfig()
+    mqtt: MQTTConfig = field(default_factory=MQTTConfig)
     device_count: int = 20
     default_interval: int = 15
     log_level: str = "INFO"

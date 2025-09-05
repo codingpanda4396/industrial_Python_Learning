@@ -1,5 +1,7 @@
 """主程序入口"""
 import sys
+import threading
+import time
 from config.settings import AppConfig, MQTTConfig
 from utils.logger import setup_logging
 from core.managers import DeviceManager

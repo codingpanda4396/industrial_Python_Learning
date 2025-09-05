@@ -1,0 +1,85 @@
+2025-09-05 19:36:29,939 - iot_simulator - INFO - [MainThread] - Starting simulation of 20 IoT devices...
+2025-09-05 19:36:29,940 - iot_simulator - INFO - [MainThread] - Press Ctrl+C to stop the program
+2025-09-05 19:36:31,966 - iot_simulator - INFO - [MainThread] - All 20 device threads started
+2025-09-05 19:36:34,983 - iot_simulator.device_01 - ERROR - [device_01_Thread] - device_01 connection error: timed out
+2025-09-05 19:36:34,983 - iot_simulator.device_01 - ERROR - [device_01_Thread] - Connection timeout
+2025-09-05 19:36:35,054 - iot_simulator.device_02 - ERROR - [device_02_Thread] - device_02 connection error: timed out
+2025-09-05 19:36:35,054 - iot_simulator.device_02 - ERROR - [device_02_Thread] - Connection timeout
+2025-09-05 19:36:35,086 - iot_simulator.device_01 - INFO - [device_01_Thread] - device_01 disconnected
+2025-09-05 19:36:35,087 - iot_simulator.device_01 - INFO - [device_01_Thread] - Stopped
+2025-09-05 19:36:35,157 - iot_simulator.device_03 - ERROR - [device_03_Thread] - device_03 connection error: timed out
+2025-09-05 19:36:35,158 - iot_simulator.device_02 - INFO - [device_02_Thread] - device_02 disconnected
+2025-09-05 19:36:35,158 - iot_simulator.device_03 - ERROR - [device_03_Thread] - Connection timeout
+2025-09-05 19:36:35,158 - iot_simulator.device_02 - INFO - [device_02_Thread] - Stopped
+2025-09-05 19:36:35,258 - iot_simulator.device_04 - ERROR - [device_04_Thread] - device_04 connection error: timed out
+2025-09-05 19:36:35,258 - iot_simulator.device_04 - ERROR - [device_04_Thread] - Connection timeout
+2025-09-05 19:36:35,259 - iot_simulator.device_03 - INFO - [device_03_Thread] - device_03 disconnected
+2025-09-05 19:36:35,259 - iot_simulator.device_03 - INFO - [device_03_Thread] - Stopped
+2025-09-05 19:36:35,350 - iot_simulator.device_05 - ERROR - [device_05_Thread] - device_05 connection error: timed out
+2025-09-05 19:36:35,352 - iot_simulator.device_05 - ERROR - [device_05_Thread] - Connection timeout
+2025-09-05 19:36:35,360 - iot_simulator.device_04 - INFO - [device_04_Thread] - device_04 disconnected
+2025-09-05 19:36:35,360 - iot_simulator.device_04 - INFO - [device_04_Thread] - Stopped
+2025-09-05 19:36:35,451 - iot_simulator.device_06 - ERROR - [device_06_Thread] - device_06 connection error: timed out
+2025-09-05 19:36:35,453 - iot_simulator.device_06 - ERROR - [device_06_Thread] - Connection timeout
+2025-09-05 19:36:35,453 - iot_simulator.device_05 - INFO - [device_05_Thread] - device_05 disconnected
+2025-09-05 19:36:35,454 - iot_simulator.device_05 - INFO - [device_05_Thread] - Stopped
+2025-09-05 19:36:35,555 - iot_simulator.device_06 - INFO - [device_06_Thread] - device_06 disconnected
+2025-09-05 19:36:35,555 - iot_simulator.device_07 - ERROR - [device_07_Thread] - device_07 connection error: timed out
+2025-09-05 19:36:35,555 - iot_simulator.device_06 - INFO - [device_06_Thread] - Stopped
+2025-09-05 19:36:35,555 - iot_simulator.device_07 - ERROR - [device_07_Thread] - Connection timeout
+2025-09-05 19:36:35,660 - iot_simulator.device_07 - INFO - [device_07_Thread] - device_07 disconnected
+2025-09-05 19:36:35,660 - iot_simulator.device_07 - INFO - [device_07_Thread] - Stopped
+2025-09-05 19:36:35,662 - iot_simulator.device_08 - ERROR - [device_08_Thread] - device_08 connection error: timed out
+2025-09-05 19:36:35,662 - iot_simulator.device_08 - ERROR - [device_08_Thread] - Connection timeout
+2025-09-05 19:36:35,764 - iot_simulator.device_09 - ERROR - [device_09_Thread] - device_09 connection error: timed out
+2025-09-05 19:36:35,765 - iot_simulator.device_08 - INFO - [device_08_Thread] - device_08 disconnected
+2025-09-05 19:36:35,765 - iot_simulator.device_09 - ERROR - [device_09_Thread] - Connection timeout
+2025-09-05 19:36:35,765 - iot_simulator.device_08 - INFO - [device_08_Thread] - Stopped
+2025-09-05 19:36:35,868 - iot_simulator.device_10 - ERROR - [device_10_Thread] - device_10 connection error: timed out
+2025-09-05 19:36:35,869 - iot_simulator.device_09 - INFO - [device_09_Thread] - device_09 disconnected
+2025-09-05 19:36:35,869 - iot_simulator.device_10 - ERROR - [device_10_Thread] - Connection timeout
+2025-09-05 19:36:35,870 - iot_simulator.device_09 - INFO - [device_09_Thread] - Stopped
+2025-09-05 19:36:35,959 - iot_simulator.device_11 - ERROR - [device_11_Thread] - device_11 connection error: timed out
+2025-09-05 19:36:35,960 - iot_simulator.device_11 - ERROR - [device_11_Thread] - Connection timeout
+2025-09-05 19:36:35,971 - iot_simulator.device_10 - INFO - [device_10_Thread] - device_10 disconnected
+2025-09-05 19:36:35,971 - iot_simulator.device_10 - INFO - [device_10_Thread] - Stopped
+2025-09-05 19:36:36,060 - iot_simulator.device_12 - ERROR - [device_12_Thread] - device_12 connection error: timed out
+2025-09-05 19:36:36,061 - iot_simulator.device_11 - INFO - [device_11_Thread] - device_11 disconnected
+2025-09-05 19:36:36,062 - iot_simulator.device_12 - ERROR - [device_12_Thread] - Connection timeout
+2025-09-05 19:36:36,063 - iot_simulator.device_11 - INFO - [device_11_Thread] - Stopped
+2025-09-05 19:36:36,164 - iot_simulator.device_12 - INFO - [device_12_Thread] - device_12 disconnected
+2025-09-05 19:36:36,165 - iot_simulator.device_12 - INFO - [device_12_Thread] - Stopped
+2025-09-05 19:36:36,168 - iot_simulator.device_13 - ERROR - [device_13_Thread] - device_13 connection error: timed out
+2025-09-05 19:36:36,169 - iot_simulator.device_13 - ERROR - [device_13_Thread] - Connection timeout
+2025-09-05 19:36:36,269 - iot_simulator.device_13 - INFO - [device_13_Thread] - device_13 disconnected
+2025-09-05 19:36:36,269 - iot_simulator.device_13 - INFO - [device_13_Thread] - Stopped
+2025-09-05 19:36:36,273 - iot_simulator.device_14 - ERROR - [device_14_Thread] - device_14 connection error: timed out
+2025-09-05 19:36:36,273 - iot_simulator.device_14 - ERROR - [device_14_Thread] - Connection timeout
+2025-09-05 19:36:36,366 - iot_simulator.device_15 - ERROR - [device_15_Thread] - device_15 connection error: timed out
+2025-09-05 19:36:36,366 - iot_simulator.device_15 - ERROR - [device_15_Thread] - Connection timeout
+2025-09-05 19:36:36,375 - iot_simulator.device_14 - INFO - [device_14_Thread] - device_14 disconnected
+2025-09-05 19:36:36,375 - iot_simulator.device_14 - INFO - [device_14_Thread] - Stopped
+2025-09-05 19:36:36,467 - iot_simulator.device_16 - ERROR - [device_16_Thread] - device_16 connection error: timed out
+2025-09-05 19:36:36,468 - iot_simulator.device_15 - INFO - [device_15_Thread] - device_15 disconnected
+2025-09-05 19:36:36,468 - iot_simulator.device_16 - ERROR - [device_16_Thread] - Connection timeout
+2025-09-05 19:36:36,468 - iot_simulator.device_15 - INFO - [device_15_Thread] - Stopped
+2025-09-05 19:36:36,571 - iot_simulator.device_17 - ERROR - [device_17_Thread] - device_17 connection error: timed out
+2025-09-05 19:36:36,573 - iot_simulator.device_17 - ERROR - [device_17_Thread] - Connection timeout
+2025-09-05 19:36:36,571 - iot_simulator.device_16 - INFO - [device_16_Thread] - device_16 disconnected
+2025-09-05 19:36:36,573 - iot_simulator.device_16 - INFO - [device_16_Thread] - Stopped
+2025-09-05 19:36:36,673 - iot_simulator.device_18 - ERROR - [device_18_Thread] - device_18 connection error: timed out
+2025-09-05 19:36:36,674 - iot_simulator.device_18 - ERROR - [device_18_Thread] - Connection timeout
+2025-09-05 19:36:36,674 - iot_simulator.device_17 - INFO - [device_17_Thread] - device_17 disconnected
+2025-09-05 19:36:36,674 - iot_simulator.device_17 - INFO - [device_17_Thread] - Stopped
+2025-09-05 19:36:36,776 - iot_simulator.device_18 - INFO - [device_18_Thread] - device_18 disconnected
+2025-09-05 19:36:36,776 - iot_simulator.device_18 - INFO - [device_18_Thread] - Stopped
+2025-09-05 19:36:36,780 - iot_simulator.device_19 - ERROR - [device_19_Thread] - device_19 connection error: timed out
+2025-09-05 19:36:36,780 - iot_simulator.device_19 - ERROR - [device_19_Thread] - Connection timeout
+2025-09-05 19:36:36,869 - iot_simulator.device_20 - ERROR - [device_20_Thread] - device_20 connection error: timed out
+2025-09-05 19:36:36,869 - iot_simulator.device_20 - ERROR - [device_20_Thread] - Connection timeout
+2025-09-05 19:36:36,881 - iot_simulator.device_19 - INFO - [device_19_Thread] - device_19 disconnected
+2025-09-05 19:36:36,882 - iot_simulator.device_19 - INFO - [device_19_Thread] - Stopped
+2025-09-05 19:36:36,972 - iot_simulator.device_20 - INFO - [device_20_Thread] - device_20 disconnected
+2025-09-05 19:36:36,972 - iot_simulator.device_20 - INFO - [device_20_Thread] - Stopped
+2025-09-05 19:36:37,473 - iot_simulator - INFO - [MainThread] - ✅ All device threads exited safely
+2025-09-05 19:36:37,473 - iot_simulator - INFO - [MainThread] - Program shutdown completed
