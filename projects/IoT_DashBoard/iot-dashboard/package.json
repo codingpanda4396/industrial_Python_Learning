@@ -1,0 +1,25 @@
+{
+    "name": "iot-dashboard",
+    "version": "1.0.0",
+    "description": "An IoT dashboard for visualizing sensor data",
+    "main": "index.js",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Your Name",
+    "license": "ISC",
+    "dependencies": {
+        "chart.js": "^4.5.0",
+        "date-fns": "^4.1.0",
+        "mqtt": "^5.14.1",
+        "vue-chartjs": "^5.3.2"
+    },
+    "devDependencies": {
+        "@vitejs/plugin-vue": "^6.0.1",
+        "@vue/compiler-sfc": "^3.5.21",
+        "vite": "^7.1.4",
+        "vite-plugin-vue-devtools": "^8.0.1"
+    }
+}

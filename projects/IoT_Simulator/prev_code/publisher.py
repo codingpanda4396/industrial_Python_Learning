@@ -69,6 +69,38 @@ def generate_device_data(device_id):
         }
     }
 
+def generate_status_data(device_id,device_type):
+    """生成设备状态数据，基于generate_device_data函数的字段"""
+    current_time = datetime.now().isoformat()
+    # 状态数据
+    status = random.choice(["running", "idle", "maintenance", "error"])
+    
+    # 指标数据
+    metrics = {
+        "temperature": round(random.uniform(20.0, 85.0), 2),
+        "pressure": round(random.uniform(0.5, 10.5), 2),
+        "vibration": round(random.uniform(0.1, 5.0), 2),
+        "output": random.randint(70, 100),
+        "efficiency": round(random.uniform(0.65, 0.95), 3)
+    }
+    
+    # 遥测数据
+    telemetry = {
+        "cpuUsage": round(random.uniform(10.0, 95.0), 2),
+        "memoryUsage": round(random.uniform(200, 1024), 2),
+        "uptime": random.randint(3600, 86400)
+    }
+    
+    return {
+        "version": "1.0",
+        "deviceId": f"device_{device_id:02d}",
+        "deviceType": device_type,
+        "timestamp": current_time,
+        "status": status,
+        "metrics": metrics,
+        "telemetry": telemetry
+    }
+
 def device_thread(device_id, interval=5):
     """单个设备线程函数"""
     client_id = f"device_{device_id:02d}"
@@ -114,29 +146,23 @@ def device_thread(device_id, interval=5):
         status_topic = f"{topic_base}/status"
         
         print(f"{client_id} 开始发布数据，主题: {data_topic}")
+
+        data = generate_device_data(device_id)
+        data_payload = json.dumps(data)
+        result = client.publish(data_topic, data_payload, qos=QOS)
         
-        # 主发布循环
-        while not stop_event.is_set():
-            # 生成并发布数据
-            data = generate_device_data(device_id)
-            data_payload = json.dumps(data)
+        # 主发布循环--主要模拟20台设备的数据变化
+        while not stop_event.is_set():#没有收到stop消息才循环
             
-            result = client.publish(data_topic, data_payload, qos=QOS)
-            
+            status=generate_status_data(device_id,data['deviceType'])
+
+            result = client.publish(status_topic,json.dumps(status),qos=QOS)
             if result.rc == mqtt.MQTT_ERR_SUCCESS:
-                print(f"{client_id} 发布消息到 {data_topic}")
+                print(f"{client_id} 发布消息到 {status_topic}")
             else:
                 print(f"{client_id} 发布失败，错误码: {result.rc}")
             
-            # 发布状态信息（保留消息）
-            status_data = {
-                "deviceId": data["deviceId"],
-                "status": data["status"],
-                "lastUpdate": data["timestamp"],
-                "online": True
-            }
-            client.publish(status_topic, json.dumps(status_data), qos=QOS, retain=True)
-            
+            client.publish(status_topic, json.dumps(status), qos=QOS, retain=True)
             # 分段睡眠以便及时响应停止事件
             for _ in range(int(interval * 2)):  # 每0.5秒检查一次
                 if stop_event.is_set():
@@ -151,6 +177,7 @@ def device_thread(device_id, interval=5):
             offline_status = {
                 "deviceId": client_id,
                 "status": "offline",
+                "deviceType":data['deviceType'],
                 "lastUpdate": datetime.now().isoformat(),
                 "online": False,
                 "reason": "normal_shutdown"
@@ -181,7 +208,7 @@ def main():
     
     # 创建并启动所有设备线程
     for device_id in range(1, 21):
-        interval = random.randint(3, 8)  # 随机发布间隔
+        interval = 15  # 随机发布间隔
         thread = threading.Thread(
             target=device_thread,
             args=(device_id,),
