@@ -5,7 +5,6 @@ import logging
 
 class Observer(ABC):
     """观察者抽象基类"""
-    
     @abstractmethod
     def update(self, device, data: dict):
         """接收更新通知"""
@@ -31,10 +30,9 @@ class Subject(ABC):
         """通知所有观察者"""
         for observer in self._observers:
             observer.update(self, data)
-
 class DeviceMonitor(Observer):
     """设备监控观察者"""
-    
+    #监控设备的运行并根据状态进行日志记录
     def __init__(self, logger: logging.Logger):
         self.logger = logger
     

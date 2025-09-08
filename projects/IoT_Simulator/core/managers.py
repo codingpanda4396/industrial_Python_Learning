@@ -16,9 +16,9 @@ class DeviceManager(Subject):
         super().__init__()
         self.config = config
         self.logger = logger
-        self.devices: List[Device] = []
-        self.threads: List[threading.Thread] = []
-        self.stop_event = threading.Event()
+        self.devices: List[Device] = []#维护设备实例列表
+        self.threads: List[threading.Thread] = []#维护设备线程列表
+        self.stop_event = threading.Event()# 用于线程间通信，通知线程停止运行
         
         # 设置信号处理
         signal.signal(signal.SIGINT, self.signal_handler)
@@ -29,16 +29,16 @@ class DeviceManager(Subject):
     
     def _setup_observers(self):
         """设置观察者"""
-        device_monitor = DeviceMonitor(self.logger)
-        performance_monitor = PerformanceMonitor(self.logger, threshold=70.0)
+        device_monitor = DeviceMonitor(self.logger)#设置设备状态监控观察者
+        performance_monitor = PerformanceMonitor(self.logger, threshold=70.0)#设置性能监控观察者
         
-        self.attach(device_monitor)
+        self.attach(device_monitor)#加入到内部维护的观察者列表
         self.attach(performance_monitor)
     
     def signal_handler(self, sig, frame):
         """处理中断信号"""
         self.logger.info("Received interrupt signal, stopping all devices...")
-        self.stop_event.set()
+        self.stop_event.set()#通知所有线程停止运行
     
     def create_devices(self):
         """创建所有设备实例"""

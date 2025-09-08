@@ -28,8 +28,8 @@ class MQTTConfig:
     port: int = 1883
     qos: int = 1
     keepalive: int = 60
-    username: str = None
-    password: str = None
+    username: str = "panda"
+    password: str = "439695"
     client_id_prefix: str = "device_"
     protocol: str = 'MQTTv311'
 

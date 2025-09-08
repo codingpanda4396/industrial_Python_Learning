@@ -12,9 +12,7 @@ def main():
     config = AppConfig(
         mqtt=MQTTConfig(
             broker='192.168.56.10',
-            port=1883,
-            username=None,  # 根据需要设置
-            password=None   # 根据需要设置
+            port=1883
         ),
         device_count=20,
         default_interval=15,
