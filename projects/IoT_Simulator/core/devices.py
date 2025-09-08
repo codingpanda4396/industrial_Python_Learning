@@ -130,9 +130,17 @@ class Device(ABC):
             self.logger.info("Started publishing data")
             
             while not stop_event.is_set():#没有收到终止信号才执行
-                # 生成并发布状态数据
-                status_data = self.generate_data()
-                success = self.publish_status(status_data, retain=True)
+
+                #尝试发布设备数据
+                data = self.generate_data()
+                success = self.publish_data(data)
+                if success:
+                    self.logger.debug("Data message published")
+                else:
+                    self.logger.warning("Publish failed")
+
+
+                success = self.publish_status(data, retain=True)
                 
                 if success:
                     self.logger.debug("Status message published")
