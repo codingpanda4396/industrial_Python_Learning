@@ -428,3 +428,277 @@
 2025-09-08 13:45:57,697 - iot_simulator.device_17 - INFO - [device_17_Thread] - Stopped
 2025-09-08 13:45:57,999 - iot_simulator - INFO - [MainThread] - ✅ All device threads exited safely
 2025-09-08 13:45:58,000 - iot_simulator - INFO - [MainThread] - Program shutdown completed
+2025-09-08 13:51:13,467 - iot_simulator - INFO - [MainThread] - Starting simulation of 20 IoT devices...
+2025-09-08 13:51:13,467 - iot_simulator - INFO - [MainThread] - Press Ctrl+C to stop the program
+2025-09-08 13:51:13,488 - iot_simulator.device_01 - INFO - [Thread-1 (_thread_main)] - device_01 connected successfully
+2025-09-08 13:51:13,573 - iot_simulator.device_02 - INFO - [Thread-2 (_thread_main)] - device_02 connected successfully
+2025-09-08 13:51:13,588 - iot_simulator.device_01 - INFO - [device_01_Thread] - Started publishing data
+2025-09-08 13:51:13,672 - iot_simulator.device_02 - INFO - [device_02_Thread] - Started publishing data
+2025-09-08 13:51:13,677 - iot_simulator.device_03 - INFO - [Thread-3 (_thread_main)] - device_03 connected successfully
+2025-09-08 13:51:13,774 - iot_simulator.device_03 - INFO - [device_03_Thread] - Started publishing data
+2025-09-08 13:51:13,784 - iot_simulator.device_04 - INFO - [Thread-4 (_thread_main)] - device_04 connected successfully
+2025-09-08 13:51:13,876 - iot_simulator.device_05 - INFO - [Thread-5 (_thread_main)] - device_05 connected successfully
+2025-09-08 13:51:13,884 - iot_simulator.device_04 - INFO - [device_04_Thread] - Started publishing data
+2025-09-08 13:51:13,975 - iot_simulator.device_05 - INFO - [device_05_Thread] - Started publishing data
+2025-09-08 13:51:13,979 - iot_simulator.device_06 - INFO - [Thread-6 (_thread_main)] - device_06 connected successfully
+2025-09-08 13:51:14,078 - iot_simulator.device_06 - INFO - [device_06_Thread] - Started publishing data
+2025-09-08 13:51:14,078 - iot_simulator.device_07 - INFO - [Thread-7 (_thread_main)] - device_07 connected successfully
+2025-09-08 13:51:14,178 - iot_simulator.device_07 - INFO - [device_07_Thread] - Started publishing data
+2025-09-08 13:51:14,178 - iot_simulator.device_08 - INFO - [Thread-8 (_thread_main)] - device_08 connected successfully
+2025-09-08 13:51:14,279 - iot_simulator.device_08 - INFO - [device_08_Thread] - Started publishing data
+2025-09-08 13:51:14,279 - iot_simulator.device_09 - INFO - [Thread-9 (_thread_main)] - device_09 connected successfully
+2025-09-08 13:51:14,379 - iot_simulator.device_09 - INFO - [device_09_Thread] - Started publishing data
+2025-09-08 13:51:14,381 - iot_simulator.device_10 - INFO - [Thread-10 (_thread_main)] - device_10 connected successfully
+2025-09-08 13:51:14,480 - iot_simulator.device_10 - INFO - [device_10_Thread] - Started publishing data
+2025-09-08 13:51:14,481 - iot_simulator.device_11 - INFO - [Thread-11 (_thread_main)] - device_11 connected successfully
+2025-09-08 13:51:14,580 - iot_simulator.device_11 - INFO - [device_11_Thread] - Started publishing data
+2025-09-08 13:51:14,583 - iot_simulator.device_12 - INFO - [Thread-12 (_thread_main)] - device_12 connected successfully
+2025-09-08 13:51:14,682 - iot_simulator.device_12 - INFO - [device_12_Thread] - Started publishing data
+2025-09-08 13:51:14,682 - iot_simulator.device_13 - INFO - [Thread-13 (_thread_main)] - device_13 connected successfully
+2025-09-08 13:51:14,782 - iot_simulator.device_13 - INFO - [device_13_Thread] - Started publishing data
+2025-09-08 13:51:14,783 - iot_simulator.device_14 - INFO - [Thread-14 (_thread_main)] - device_14 connected successfully
+2025-09-08 13:51:14,884 - iot_simulator.device_14 - INFO - [device_14_Thread] - Started publishing data
+2025-09-08 13:51:14,885 - iot_simulator.device_15 - INFO - [Thread-15 (_thread_main)] - device_15 connected successfully
+2025-09-08 13:51:14,984 - iot_simulator.device_15 - INFO - [device_15_Thread] - Started publishing data
+2025-09-08 13:51:14,990 - iot_simulator.device_16 - INFO - [Thread-16 (_thread_main)] - device_16 connected successfully
+2025-09-08 13:51:15,086 - iot_simulator.device_17 - INFO - [Thread-17 (_thread_main)] - device_17 connected successfully
+2025-09-08 13:51:15,087 - iot_simulator.device_16 - INFO - [device_16_Thread] - Started publishing data
+2025-09-08 13:51:15,186 - iot_simulator.device_17 - INFO - [device_17_Thread] - Started publishing data
+2025-09-08 13:51:15,189 - iot_simulator.device_18 - INFO - [Thread-18 (_thread_main)] - device_18 connected successfully
+2025-09-08 13:51:15,287 - iot_simulator.device_18 - INFO - [device_18_Thread] - Started publishing data
+2025-09-08 13:51:15,299 - iot_simulator.device_19 - INFO - [Thread-19 (_thread_main)] - device_19 connected successfully
+2025-09-08 13:51:15,390 - iot_simulator.device_20 - INFO - [Thread-20 (_thread_main)] - device_20 connected successfully
+2025-09-08 13:51:15,398 - iot_simulator.device_19 - INFO - [device_19_Thread] - Started publishing data
+2025-09-08 13:51:15,487 - iot_simulator - INFO - [MainThread] - All 20 device threads started
+2025-09-08 13:51:15,489 - iot_simulator.device_20 - INFO - [device_20_Thread] - Started publishing data
+2025-09-08 13:51:58,651 - iot_simulator - INFO - [MainThread] - Received interrupt signal, stopping all devices...
+2025-09-08 13:51:59,705 - iot_simulator.device_02 - INFO - [device_02_Thread] - device_02 disconnected
+2025-09-08 13:51:59,706 - iot_simulator.device_02 - INFO - [device_02_Thread] - Stopped
+2025-09-08 13:51:59,710 - iot_simulator.device_07 - INFO - [device_07_Thread] - device_07 disconnected
+2025-09-08 13:51:59,710 - iot_simulator.device_07 - INFO - [device_07_Thread] - Stopped
+2025-09-08 13:51:59,716 - iot_simulator.device_12 - INFO - [device_12_Thread] - device_12 disconnected
+2025-09-08 13:51:59,716 - iot_simulator.device_12 - INFO - [device_12_Thread] - Stopped
+2025-09-08 13:51:59,717 - iot_simulator.device_17 - INFO - [device_17_Thread] - device_17 disconnected
+2025-09-08 13:51:59,718 - iot_simulator.device_17 - INFO - [device_17_Thread] - Stopped
+2025-09-08 13:51:59,808 - iot_simulator.device_03 - INFO - [device_03_Thread] - device_03 disconnected
+2025-09-08 13:51:59,809 - iot_simulator.device_03 - INFO - [device_03_Thread] - Stopped
+2025-09-08 13:51:59,811 - iot_simulator.device_08 - INFO - [device_08_Thread] - device_08 disconnected
+2025-09-08 13:51:59,811 - iot_simulator.device_08 - INFO - [device_08_Thread] - Stopped
+2025-09-08 13:51:59,813 - iot_simulator.device_13 - INFO - [device_13_Thread] - device_13 disconnected
+2025-09-08 13:51:59,814 - iot_simulator.device_13 - INFO - [device_13_Thread] - Stopped
+2025-09-08 13:51:59,821 - iot_simulator.device_18 - INFO - [device_18_Thread] - device_18 disconnected
+2025-09-08 13:51:59,822 - iot_simulator.device_18 - INFO - [device_18_Thread] - Stopped
+2025-09-08 13:51:59,912 - iot_simulator.device_09 - INFO - [device_09_Thread] - device_09 disconnected
+2025-09-08 13:51:59,913 - iot_simulator.device_09 - INFO - [device_09_Thread] - Stopped
+2025-09-08 13:51:59,913 - iot_simulator.device_14 - INFO - [device_14_Thread] - device_14 disconnected
+2025-09-08 13:51:59,914 - iot_simulator.device_14 - INFO - [device_14_Thread] - Stopped
+2025-09-08 13:51:59,915 - iot_simulator.device_04 - INFO - [device_04_Thread] - device_04 disconnected
+2025-09-08 13:51:59,915 - iot_simulator.device_04 - INFO - [device_04_Thread] - Stopped
+2025-09-08 13:51:59,929 - iot_simulator.device_19 - INFO - [device_19_Thread] - device_19 disconnected
+2025-09-08 13:51:59,930 - iot_simulator.device_19 - INFO - [device_19_Thread] - Stopped
+2025-09-08 13:52:00,011 - iot_simulator.device_05 - INFO - [device_05_Thread] - device_05 disconnected
+2025-09-08 13:52:00,011 - iot_simulator.device_05 - INFO - [device_05_Thread] - Stopped
+2025-09-08 13:52:00,013 - iot_simulator.device_10 - INFO - [device_10_Thread] - device_10 disconnected
+2025-09-08 13:52:00,013 - iot_simulator.device_10 - INFO - [device_10_Thread] - Stopped
+2025-09-08 13:52:00,014 - iot_simulator.device_15 - INFO - [device_15_Thread] - device_15 disconnected
+2025-09-08 13:52:00,014 - iot_simulator.device_15 - INFO - [device_15_Thread] - Stopped
+2025-09-08 13:52:00,019 - iot_simulator.device_20 - INFO - [device_20_Thread] - device_20 disconnected
+2025-09-08 13:52:00,020 - iot_simulator.device_20 - INFO - [device_20_Thread] - Stopped
+2025-09-08 13:52:00,108 - iot_simulator.device_06 - INFO - [device_06_Thread] - device_06 disconnected
+2025-09-08 13:52:00,108 - iot_simulator.device_06 - INFO - [device_06_Thread] - Stopped
+2025-09-08 13:52:00,111 - iot_simulator.device_11 - INFO - [device_11_Thread] - device_11 disconnected
+2025-09-08 13:52:00,111 - iot_simulator.device_11 - INFO - [device_11_Thread] - Stopped
+2025-09-08 13:52:00,113 - iot_simulator.device_16 - INFO - [device_16_Thread] - device_16 disconnected
+2025-09-08 13:52:00,114 - iot_simulator.device_16 - INFO - [device_16_Thread] - Stopped
+2025-09-08 13:52:00,121 - iot_simulator.device_01 - INFO - [device_01_Thread] - device_01 disconnected
+2025-09-08 13:52:00,122 - iot_simulator.device_01 - INFO - [device_01_Thread] - Stopped
+2025-09-08 13:52:00,517 - iot_simulator - INFO - [MainThread] - ✅ All device threads exited safely
+2025-09-08 13:52:00,518 - iot_simulator - INFO - [MainThread] - Program shutdown completed
+2025-09-08 13:52:25,639 - iot_simulator - INFO - [MainThread] - Starting simulation of 20 IoT devices...
+2025-09-08 13:52:25,639 - iot_simulator - INFO - [MainThread] - Press Ctrl+C to stop the program
+2025-09-08 13:52:25,658 - iot_simulator.device_01 - INFO - [Thread-1 (_thread_main)] - device_01 connected successfully
+2025-09-08 13:52:25,745 - iot_simulator.device_02 - INFO - [Thread-2 (_thread_main)] - device_02 connected successfully
+2025-09-08 13:52:25,758 - iot_simulator.device_01 - INFO - [device_01_Thread] - Started publishing data
+2025-09-08 13:52:25,759 - iot_simulator.device_01 - DEBUG - [device_01_Thread] - Data message published
+2025-09-08 13:52:25,760 - iot_simulator.device_01 - DEBUG - [device_01_Thread] - Status message published
+2025-09-08 13:52:25,760 - iot_simulator.device_01 - DEBUG - [Thread-1 (_thread_main)] - Message 1 published by device_01
+2025-09-08 13:52:25,761 - iot_simulator.device_01 - DEBUG - [Thread-1 (_thread_main)] - Message 2 published by device_01
+2025-09-08 13:52:25,844 - iot_simulator.device_02 - INFO - [device_02_Thread] - Started publishing data
+2025-09-08 13:52:25,845 - iot_simulator.device_02 - DEBUG - [device_02_Thread] - Data message published
+2025-09-08 13:52:25,847 - iot_simulator.device_02 - DEBUG - [device_02_Thread] - Status message published
+2025-09-08 13:52:25,847 - iot_simulator.device_03 - INFO - [Thread-3 (_thread_main)] - device_03 connected successfully
+2025-09-08 13:52:25,847 - iot_simulator.device_02 - DEBUG - [Thread-2 (_thread_main)] - Message 1 published by device_02
+2025-09-08 13:52:25,849 - iot_simulator.device_02 - DEBUG - [Thread-2 (_thread_main)] - Message 2 published by device_02
+2025-09-08 13:52:25,947 - iot_simulator.device_03 - INFO - [device_03_Thread] - Started publishing data
+2025-09-08 13:52:25,948 - iot_simulator.device_04 - INFO - [Thread-4 (_thread_main)] - device_04 connected successfully
+2025-09-08 13:52:25,948 - iot_simulator.device_03 - DEBUG - [device_03_Thread] - Data message published
+2025-09-08 13:52:25,949 - iot_simulator.device_03 - DEBUG - [device_03_Thread] - Status message published
+2025-09-08 13:52:25,949 - iot_simulator.device_03 - DEBUG - [Thread-3 (_thread_main)] - Message 1 published by device_03
+2025-09-08 13:52:25,950 - iot_simulator.device_03 - DEBUG - [Thread-3 (_thread_main)] - Message 2 published by device_03
+2025-09-08 13:52:26,046 - iot_simulator.device_04 - INFO - [device_04_Thread] - Started publishing data
+2025-09-08 13:52:26,047 - iot_simulator.device_04 - DEBUG - [device_04_Thread] - Data message published
+2025-09-08 13:52:26,048 - iot_simulator.device_04 - DEBUG - [device_04_Thread] - Status message published
+2025-09-08 13:52:26,049 - iot_simulator.device_05 - INFO - [Thread-5 (_thread_main)] - device_05 connected successfully
+2025-09-08 13:52:26,050 - iot_simulator.device_04 - DEBUG - [Thread-4 (_thread_main)] - Message 1 published by device_04
+2025-09-08 13:52:26,051 - iot_simulator.device_04 - DEBUG - [Thread-4 (_thread_main)] - Message 2 published by device_04
+2025-09-08 13:52:26,147 - iot_simulator.device_05 - INFO - [device_05_Thread] - Started publishing data
+2025-09-08 13:52:26,148 - iot_simulator.device_05 - DEBUG - [device_05_Thread] - Data message published
+2025-09-08 13:52:26,148 - iot_simulator.device_05 - DEBUG - [device_05_Thread] - Status message published
+2025-09-08 13:52:26,148 - iot_simulator.device_05 - DEBUG - [Thread-5 (_thread_main)] - Message 1 published by device_05
+2025-09-08 13:52:26,150 - iot_simulator.device_05 - DEBUG - [Thread-5 (_thread_main)] - Message 2 published by device_05
+2025-09-08 13:52:26,157 - iot_simulator.device_06 - INFO - [Thread-6 (_thread_main)] - device_06 connected successfully
+2025-09-08 13:52:26,248 - iot_simulator.device_07 - INFO - [Thread-7 (_thread_main)] - device_07 connected successfully
+2025-09-08 13:52:26,257 - iot_simulator.device_06 - INFO - [device_06_Thread] - Started publishing data
+2025-09-08 13:52:26,259 - iot_simulator.device_06 - DEBUG - [device_06_Thread] - Data message published
+2025-09-08 13:52:26,259 - iot_simulator.device_06 - DEBUG - [device_06_Thread] - Status message published
+2025-09-08 13:52:26,261 - iot_simulator.device_06 - DEBUG - [Thread-6 (_thread_main)] - Message 1 published by device_06
+2025-09-08 13:52:26,263 - iot_simulator.device_06 - DEBUG - [Thread-6 (_thread_main)] - Message 2 published by device_06
+2025-09-08 13:52:26,349 - iot_simulator.device_07 - INFO - [device_07_Thread] - Started publishing data
+2025-09-08 13:52:26,349 - iot_simulator.device_07 - DEBUG - [device_07_Thread] - Data message published
+2025-09-08 13:52:26,350 - iot_simulator.device_07 - DEBUG - [device_07_Thread] - Status message published
+2025-09-08 13:52:26,350 - iot_simulator.device_08 - INFO - [Thread-8 (_thread_main)] - device_08 connected successfully
+2025-09-08 13:52:26,351 - iot_simulator.device_07 - DEBUG - [Thread-7 (_thread_main)] - Message 1 published by device_07
+2025-09-08 13:52:26,352 - iot_simulator.device_07 - DEBUG - [Thread-7 (_thread_main)] - Message 2 published by device_07
+2025-09-08 13:52:26,449 - iot_simulator.device_08 - INFO - [device_08_Thread] - Started publishing data
+2025-09-08 13:52:26,450 - iot_simulator.device_08 - DEBUG - [device_08_Thread] - Data message published
+2025-09-08 13:52:26,451 - iot_simulator.device_08 - DEBUG - [device_08_Thread] - Status message published
+2025-09-08 13:52:26,451 - iot_simulator.device_09 - INFO - [Thread-9 (_thread_main)] - device_09 connected successfully
+2025-09-08 13:52:26,453 - iot_simulator.device_08 - DEBUG - [Thread-8 (_thread_main)] - Message 1 published by device_08
+2025-09-08 13:52:26,454 - iot_simulator.device_08 - DEBUG - [Thread-8 (_thread_main)] - Message 2 published by device_08
+2025-09-08 13:52:26,552 - iot_simulator.device_09 - INFO - [device_09_Thread] - Started publishing data
+2025-09-08 13:52:26,553 - iot_simulator.device_09 - DEBUG - [device_09_Thread] - Data message published
+2025-09-08 13:52:26,554 - iot_simulator.device_09 - DEBUG - [device_09_Thread] - Status message published
+2025-09-08 13:52:26,554 - iot_simulator.device_09 - DEBUG - [Thread-9 (_thread_main)] - Message 1 published by device_09
+2025-09-08 13:52:26,556 - iot_simulator.device_09 - DEBUG - [Thread-9 (_thread_main)] - Message 2 published by device_09
+2025-09-08 13:52:26,562 - iot_simulator.device_10 - INFO - [Thread-10 (_thread_main)] - device_10 connected successfully
+2025-09-08 13:52:26,653 - iot_simulator.device_11 - INFO - [Thread-11 (_thread_main)] - device_11 connected successfully
+2025-09-08 13:52:26,662 - iot_simulator.device_10 - INFO - [device_10_Thread] - Started publishing data
+2025-09-08 13:52:26,663 - iot_simulator.device_10 - DEBUG - [device_10_Thread] - Data message published
+2025-09-08 13:52:26,664 - iot_simulator.device_10 - DEBUG - [device_10_Thread] - Status message published
+2025-09-08 13:52:26,665 - iot_simulator.device_10 - DEBUG - [Thread-10 (_thread_main)] - Message 1 published by device_10
+2025-09-08 13:52:26,665 - iot_simulator.device_10 - DEBUG - [Thread-10 (_thread_main)] - Message 2 published by device_10
+2025-09-08 13:52:26,752 - iot_simulator.device_11 - INFO - [device_11_Thread] - Started publishing data
+2025-09-08 13:52:26,753 - iot_simulator.device_11 - DEBUG - [device_11_Thread] - Data message published
+2025-09-08 13:52:26,754 - iot_simulator.device_11 - DEBUG - [device_11_Thread] - Status message published
+2025-09-08 13:52:26,754 - iot_simulator.device_11 - DEBUG - [Thread-11 (_thread_main)] - Message 1 published by device_11
+2025-09-08 13:52:26,755 - iot_simulator.device_11 - DEBUG - [Thread-11 (_thread_main)] - Message 2 published by device_11
+2025-09-08 13:52:26,764 - iot_simulator.device_12 - INFO - [Thread-12 (_thread_main)] - device_12 connected successfully
+2025-09-08 13:52:26,864 - iot_simulator.device_12 - INFO - [device_12_Thread] - Started publishing data
+2025-09-08 13:52:26,864 - iot_simulator.device_13 - INFO - [Thread-13 (_thread_main)] - device_13 connected successfully
+2025-09-08 13:52:26,865 - iot_simulator.device_12 - DEBUG - [device_12_Thread] - Data message published
+2025-09-08 13:52:26,866 - iot_simulator.device_12 - DEBUG - [device_12_Thread] - Status message published
+2025-09-08 13:52:26,866 - iot_simulator.device_12 - DEBUG - [Thread-12 (_thread_main)] - Message 1 published by device_12
+2025-09-08 13:52:26,867 - iot_simulator.device_12 - DEBUG - [Thread-12 (_thread_main)] - Message 2 published by device_12
+2025-09-08 13:52:26,955 - iot_simulator.device_14 - INFO - [Thread-14 (_thread_main)] - device_14 connected successfully
+2025-09-08 13:52:26,963 - iot_simulator.device_13 - INFO - [device_13_Thread] - Started publishing data
+2025-09-08 13:52:26,964 - iot_simulator.device_13 - DEBUG - [device_13_Thread] - Data message published
+2025-09-08 13:52:26,965 - iot_simulator.device_13 - DEBUG - [device_13_Thread] - Status message published
+2025-09-08 13:52:26,966 - iot_simulator.device_13 - DEBUG - [Thread-13 (_thread_main)] - Message 1 published by device_13
+2025-09-08 13:52:26,968 - iot_simulator.device_13 - DEBUG - [Thread-13 (_thread_main)] - Message 2 published by device_13
+2025-09-08 13:52:27,055 - iot_simulator.device_14 - INFO - [device_14_Thread] - Started publishing data
+2025-09-08 13:52:27,056 - iot_simulator.device_14 - DEBUG - [device_14_Thread] - Data message published
+2025-09-08 13:52:27,057 - iot_simulator.device_14 - DEBUG - [device_14_Thread] - Status message published
+2025-09-08 13:52:27,057 - iot_simulator.device_15 - INFO - [Thread-15 (_thread_main)] - device_15 connected successfully
+2025-09-08 13:52:27,057 - iot_simulator.device_14 - DEBUG - [Thread-14 (_thread_main)] - Message 1 published by device_14
+2025-09-08 13:52:27,059 - iot_simulator.device_14 - DEBUG - [Thread-14 (_thread_main)] - Message 2 published by device_14
+2025-09-08 13:52:27,156 - iot_simulator.device_15 - INFO - [device_15_Thread] - Started publishing data
+2025-09-08 13:52:27,156 - iot_simulator.device_15 - DEBUG - [device_15_Thread] - Data message published
+2025-09-08 13:52:27,156 - iot_simulator.device_16 - INFO - [Thread-16 (_thread_main)] - device_16 connected successfully
+2025-09-08 13:52:27,157 - iot_simulator.device_15 - DEBUG - [device_15_Thread] - Status message published
+2025-09-08 13:52:27,158 - iot_simulator.device_15 - DEBUG - [Thread-15 (_thread_main)] - Message 1 published by device_15
+2025-09-08 13:52:27,159 - iot_simulator.device_15 - DEBUG - [Thread-15 (_thread_main)] - Message 2 published by device_15
+2025-09-08 13:52:27,256 - iot_simulator.device_16 - INFO - [device_16_Thread] - Started publishing data
+2025-09-08 13:52:27,257 - iot_simulator.device_16 - DEBUG - [device_16_Thread] - Data message published
+2025-09-08 13:52:27,258 - iot_simulator.device_16 - DEBUG - [device_16_Thread] - Status message published
+2025-09-08 13:52:27,259 - iot_simulator.device_17 - INFO - [Thread-17 (_thread_main)] - device_17 connected successfully
+2025-09-08 13:52:27,260 - iot_simulator.device_16 - DEBUG - [Thread-16 (_thread_main)] - Message 1 published by device_16
+2025-09-08 13:52:27,262 - iot_simulator.device_16 - DEBUG - [Thread-16 (_thread_main)] - Message 2 published by device_16
+2025-09-08 13:52:27,357 - iot_simulator.device_17 - INFO - [device_17_Thread] - Started publishing data
+2025-09-08 13:52:27,359 - iot_simulator.device_17 - DEBUG - [device_17_Thread] - Data message published
+2025-09-08 13:52:27,360 - iot_simulator.device_17 - DEBUG - [device_17_Thread] - Status message published
+2025-09-08 13:52:27,361 - iot_simulator.device_17 - DEBUG - [Thread-17 (_thread_main)] - Message 1 published by device_17
+2025-09-08 13:52:27,361 - iot_simulator.device_17 - DEBUG - [Thread-17 (_thread_main)] - Message 2 published by device_17
+2025-09-08 13:52:27,372 - iot_simulator.device_18 - INFO - [Thread-18 (_thread_main)] - device_18 connected successfully
+2025-09-08 13:52:27,460 - iot_simulator.device_19 - INFO - [Thread-19 (_thread_main)] - device_19 connected successfully
+2025-09-08 13:52:27,472 - iot_simulator.device_18 - INFO - [device_18_Thread] - Started publishing data
+2025-09-08 13:52:27,474 - iot_simulator.device_18 - DEBUG - [device_18_Thread] - Data message published
+2025-09-08 13:52:27,475 - iot_simulator.device_18 - DEBUG - [Thread-18 (_thread_main)] - Message 1 published by device_18
+2025-09-08 13:52:27,475 - iot_simulator.device_18 - DEBUG - [device_18_Thread] - Status message published
+2025-09-08 13:52:27,477 - iot_simulator.device_18 - DEBUG - [Thread-18 (_thread_main)] - Message 2 published by device_18
+2025-09-08 13:52:27,559 - iot_simulator.device_19 - INFO - [device_19_Thread] - Started publishing data
+2025-09-08 13:52:27,560 - iot_simulator.device_19 - DEBUG - [device_19_Thread] - Data message published
+2025-09-08 13:52:27,561 - iot_simulator.device_19 - DEBUG - [device_19_Thread] - Status message published
+2025-09-08 13:52:27,563 - iot_simulator.device_20 - INFO - [Thread-20 (_thread_main)] - device_20 connected successfully
+2025-09-08 13:52:27,565 - iot_simulator.device_19 - DEBUG - [Thread-19 (_thread_main)] - Message 1 published by device_19
+2025-09-08 13:52:27,566 - iot_simulator.device_19 - DEBUG - [Thread-19 (_thread_main)] - Message 2 published by device_19
+2025-09-08 13:52:27,658 - iot_simulator - INFO - [MainThread] - All 20 device threads started
+2025-09-08 13:52:27,659 - iot_simulator - DEBUG - [DeviceMonitorThread] - Active device threads: 20/20
+2025-09-08 13:52:27,662 - iot_simulator.device_20 - INFO - [device_20_Thread] - Started publishing data
+2025-09-08 13:52:27,663 - iot_simulator.device_20 - DEBUG - [device_20_Thread] - Data message published
+2025-09-08 13:52:27,664 - iot_simulator.device_20 - DEBUG - [Thread-20 (_thread_main)] - Message 1 published by device_20
+2025-09-08 13:52:27,665 - iot_simulator.device_20 - DEBUG - [device_20_Thread] - Status message published
+2025-09-08 13:52:27,666 - iot_simulator.device_20 - DEBUG - [Thread-20 (_thread_main)] - Message 2 published by device_20
+2025-09-08 13:52:32,661 - iot_simulator - DEBUG - [DeviceMonitorThread] - Active device threads: 20/20
+2025-09-08 13:52:37,207 - iot_simulator - INFO - [MainThread] - Received interrupt signal, stopping all devices...
+2025-09-08 13:52:37,263 - iot_simulator.device_11 - DEBUG - [Thread-11 (_thread_main)] - Message 3 published by device_11
+2025-09-08 13:52:37,266 - iot_simulator.device_16 - DEBUG - [Thread-16 (_thread_main)] - Message 3 published by device_16
+2025-09-08 13:52:37,268 - iot_simulator.device_01 - DEBUG - [Thread-1 (_thread_main)] - Message 3 published by device_01
+2025-09-08 13:52:37,269 - iot_simulator.device_06 - DEBUG - [Thread-6 (_thread_main)] - Message 3 published by device_06
+2025-09-08 13:52:37,356 - iot_simulator.device_02 - DEBUG - [Thread-2 (_thread_main)] - Message 3 published by device_02
+2025-09-08 13:52:37,359 - iot_simulator.device_07 - DEBUG - [Thread-7 (_thread_main)] - Message 3 published by device_07
+2025-09-08 13:52:37,366 - iot_simulator.device_17 - DEBUG - [Thread-17 (_thread_main)] - Message 3 published by device_17
+2025-09-08 13:52:37,374 - iot_simulator.device_12 - DEBUG - [Thread-12 (_thread_main)] - Message 3 published by device_12
+2025-09-08 13:52:37,459 - iot_simulator.device_03 - DEBUG - [Thread-3 (_thread_main)] - Message 3 published by device_03
+2025-09-08 13:52:37,460 - iot_simulator.device_08 - DEBUG - [Thread-8 (_thread_main)] - Message 3 published by device_08
+2025-09-08 13:52:37,472 - iot_simulator.device_13 - DEBUG - [Thread-13 (_thread_main)] - Message 3 published by device_13
+2025-09-08 13:52:37,484 - iot_simulator.device_18 - DEBUG - [Thread-18 (_thread_main)] - Message 3 published by device_18
+2025-09-08 13:52:37,558 - iot_simulator.device_04 - DEBUG - [Thread-4 (_thread_main)] - Message 3 published by device_04
+2025-09-08 13:52:37,562 - iot_simulator.device_09 - DEBUG - [Thread-9 (_thread_main)] - Message 3 published by device_09
+2025-09-08 13:52:37,564 - iot_simulator.device_14 - DEBUG - [Thread-14 (_thread_main)] - Message 3 published by device_14
+2025-09-08 13:52:37,568 - iot_simulator.device_19 - DEBUG - [Thread-19 (_thread_main)] - Message 3 published by device_19
+2025-09-08 13:52:37,659 - iot_simulator.device_05 - DEBUG - [Thread-5 (_thread_main)] - Message 3 published by device_05
+2025-09-08 13:52:37,664 - iot_simulator.device_15 - DEBUG - [Thread-15 (_thread_main)] - Message 3 published by device_15
+2025-09-08 13:52:37,676 - iot_simulator.device_10 - DEBUG - [Thread-10 (_thread_main)] - Message 3 published by device_10
+2025-09-08 13:52:37,677 - iot_simulator.device_20 - DEBUG - [Thread-20 (_thread_main)] - Message 3 published by device_20
+2025-09-08 13:52:38,264 - iot_simulator.device_11 - INFO - [device_11_Thread] - device_11 disconnected
+2025-09-08 13:52:38,265 - iot_simulator.device_11 - INFO - [device_11_Thread] - Stopped
+2025-09-08 13:52:38,266 - iot_simulator.device_16 - INFO - [device_16_Thread] - device_16 disconnected
+2025-09-08 13:52:38,267 - iot_simulator.device_16 - INFO - [device_16_Thread] - Stopped
+2025-09-08 13:52:38,270 - iot_simulator.device_01 - INFO - [device_01_Thread] - device_01 disconnected
+2025-09-08 13:52:38,270 - iot_simulator.device_01 - INFO - [device_01_Thread] - Stopped
+2025-09-08 13:52:38,270 - iot_simulator.device_06 - INFO - [device_06_Thread] - device_06 disconnected
+2025-09-08 13:52:38,272 - iot_simulator.device_06 - INFO - [device_06_Thread] - Stopped
+2025-09-08 13:52:38,357 - iot_simulator.device_02 - INFO - [device_02_Thread] - device_02 disconnected
+2025-09-08 13:52:38,358 - iot_simulator.device_02 - INFO - [device_02_Thread] - Stopped
+2025-09-08 13:52:38,359 - iot_simulator.device_07 - INFO - [device_07_Thread] - device_07 disconnected
+2025-09-08 13:52:38,359 - iot_simulator.device_07 - INFO - [device_07_Thread] - Stopped
+2025-09-08 13:52:38,367 - iot_simulator.device_17 - INFO - [device_17_Thread] - device_17 disconnected
+2025-09-08 13:52:38,368 - iot_simulator.device_17 - INFO - [device_17_Thread] - Stopped
+2025-09-08 13:52:38,374 - iot_simulator.device_12 - INFO - [device_12_Thread] - device_12 disconnected
+2025-09-08 13:52:38,375 - iot_simulator.device_12 - INFO - [device_12_Thread] - Stopped
+2025-09-08 13:52:38,460 - iot_simulator.device_03 - INFO - [device_03_Thread] - device_03 disconnected
+2025-09-08 13:52:38,461 - iot_simulator.device_08 - INFO - [device_08_Thread] - device_08 disconnected
+2025-09-08 13:52:38,461 - iot_simulator.device_03 - INFO - [device_03_Thread] - Stopped
+2025-09-08 13:52:38,461 - iot_simulator.device_08 - INFO - [device_08_Thread] - Stopped
+2025-09-08 13:52:38,474 - iot_simulator.device_13 - INFO - [device_13_Thread] - device_13 disconnected
+2025-09-08 13:52:38,474 - iot_simulator.device_13 - INFO - [device_13_Thread] - Stopped
+2025-09-08 13:52:38,484 - iot_simulator.device_18 - INFO - [device_18_Thread] - device_18 disconnected
+2025-09-08 13:52:38,485 - iot_simulator.device_18 - INFO - [device_18_Thread] - Stopped
+2025-09-08 13:52:38,558 - iot_simulator.device_04 - INFO - [device_04_Thread] - device_04 disconnected
+2025-09-08 13:52:38,559 - iot_simulator.device_04 - INFO - [device_04_Thread] - Stopped
+2025-09-08 13:52:38,563 - iot_simulator.device_09 - INFO - [device_09_Thread] - device_09 disconnected
+2025-09-08 13:52:38,564 - iot_simulator.device_09 - INFO - [device_09_Thread] - Stopped
+2025-09-08 13:52:38,565 - iot_simulator.device_14 - INFO - [device_14_Thread] - device_14 disconnected
+2025-09-08 13:52:38,565 - iot_simulator.device_14 - INFO - [device_14_Thread] - Stopped
+2025-09-08 13:52:38,570 - iot_simulator.device_19 - INFO - [device_19_Thread] - device_19 disconnected
+2025-09-08 13:52:38,571 - iot_simulator.device_19 - INFO - [device_19_Thread] - Stopped
+2025-09-08 13:52:38,659 - iot_simulator.device_05 - INFO - [device_05_Thread] - device_05 disconnected
+2025-09-08 13:52:38,660 - iot_simulator.device_05 - INFO - [device_05_Thread] - Stopped
+2025-09-08 13:52:38,665 - iot_simulator.device_15 - INFO - [device_15_Thread] - device_15 disconnected
+2025-09-08 13:52:38,666 - iot_simulator.device_15 - INFO - [device_15_Thread] - Stopped
+2025-09-08 13:52:38,677 - iot_simulator.device_10 - INFO - [device_10_Thread] - device_10 disconnected
+2025-09-08 13:52:38,677 - iot_simulator.device_10 - INFO - [device_10_Thread] - Stopped
+2025-09-08 13:52:38,678 - iot_simulator.device_20 - INFO - [device_20_Thread] - device_20 disconnected
+2025-09-08 13:52:38,678 - iot_simulator.device_20 - INFO - [device_20_Thread] - Stopped
+2025-09-08 13:52:39,168 - iot_simulator - INFO - [MainThread] - ✅ All device threads exited safely
+2025-09-08 13:52:39,169 - iot_simulator - INFO - [MainThread] - Program shutdown completed

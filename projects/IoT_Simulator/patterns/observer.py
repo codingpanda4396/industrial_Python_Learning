@@ -14,15 +14,15 @@ class Subject(ABC):
     """主题抽象基类"""
     
     def __init__(self):
-        self._observers: List[Observer] = []
+        self._observers: List[Observer] = []#维护观察者列表
     
     def attach(self, observer: Observer):
-        """附加观察者"""
+        """添加观察者"""
         if observer not in self._observers:
             self._observers.append(observer)
     
     def detach(self, observer: Observer):
-        """分离观察者"""
+        """移除观察者"""
         if observer in self._observers:
             self._observers.remove(observer)
     
@@ -37,7 +37,7 @@ class DeviceMonitor(Observer):
         self.logger = logger
     
     def update(self, device, data: dict):
-        """处理设备数据更新"""
+        """处理设备数据更新：记录状态变化"""
         device_id = data.get('deviceId', 'unknown')
         status = data.get('status', 'unknown')
         
@@ -47,7 +47,7 @@ class DeviceMonitor(Observer):
             self.logger.info(f"Device {device_id} requires maintenance")
 
 class PerformanceMonitor(Observer):
-    """性能监控观察者"""
+    """性能监控观察者：threshold低时报警"""
     
     def __init__(self, logger: logging.Logger, threshold: float = 80.0):
         self.logger = logger

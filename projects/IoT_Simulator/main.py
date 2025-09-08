@@ -16,7 +16,7 @@ def main():
         ),
         device_count=20,
         default_interval=15,
-        log_level="INFO"
+        log_level="DEBUG"
     )
     
     # 设置日志
