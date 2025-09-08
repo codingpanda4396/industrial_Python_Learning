@@ -66,7 +66,7 @@ class DeviceManager(Subject):
         
         for device in self.devices:
             thread = threading.Thread(
-                target=device.run,
+                target=device.run,          
                 args=(self.stop_event,),
                 name=f"{device.client_id}_Thread",
                 daemon=False
@@ -86,7 +86,7 @@ class DeviceManager(Subject):
         start_time = time.time()
         
         while (time.time() - start_time < timeout and 
-               any(t.is_alive() for t in self.threads)):
+               any(t.is_alive() for t in self.threads)):#未超时且有线程未关闭
             time.sleep(0.5)
         
         # 第二阶段：处理未退出的线程

@@ -85,7 +85,7 @@ class DatabaseManager:
         try:
             with self.get_connection() as conn:
                 with conn.cursor() as cursor:
-                    cursor.execute(query, params or ())
+                    cursor.execute(query, params or ()) 
                     conn.commit()
                     return cursor.lastrowid
         except Exception as e:
@@ -135,7 +135,7 @@ class DeviceDataProcessor:
     @staticmethod
     def extract_device_metrics(data: Dict[str, Any]) -> Dict[str, Any]:
         """提取设备指标数据"""
-        metrics = data.get('metrics', {})
+        metrics = data.get('metrics', {})#getOrdefault
         return {
             'temperature': metrics.get('temperature'),
             'pressure': metrics.get('pressure'),

@@ -68,7 +68,7 @@ class Device(ABC):
         telemetry = self.generate_telemetry()
         
         return {
-            **base_data,
+            **base_data,#字典解包操作符
             "status": random.choice([s.value for s in [
                 DeviceStatus.RUNNING, DeviceStatus.IDLE, 
                 DeviceStatus.MAINTENANCE, DeviceStatus.ERROR
@@ -84,7 +84,7 @@ class Device(ABC):
         
         # 等待连接建立
         start_time = time.time()
-        while time.time() - start_time < timeout:
+        while time.time() - start_time < timeout:#timeout秒内完成连接否则返回False
             if self.mqtt_client.is_connected():
                 return True
             time.sleep(0.1)
@@ -108,7 +108,7 @@ class Device(ABC):
     
     def publish_data(self, data: Dict[str, Any]) -> bool:
         """发布设备数据"""
-        line_num = self.device_id % 3 + 1
+        line_num = self.device_id % 3 + 1#随机一条流水线
         topic = f"factory/line_{line_num}/{self.client_id}/data"
         import json
         return self.mqtt_client.publish(topic, json.dumps(data))
@@ -129,7 +129,7 @@ class Device(ABC):
             
             self.logger.info("Started publishing data")
             
-            while not stop_event.is_set():
+            while not stop_event.is_set():#没有收到终止信号才执行
                 # 生成并发布状态数据
                 status_data = self.generate_data()
                 success = self.publish_status(status_data, retain=True)

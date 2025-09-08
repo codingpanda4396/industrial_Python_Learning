@@ -4,7 +4,7 @@ import logging
 from typing import Callable, Optional
 from config.settings import MQTTConfig
 
-class MQTTClientWrapper:
+class MQTTClientWrapper:    
     """封装MQTT客户端功能的包装类"""
     
     def __init__(self, client_id: str, config: MQTTConfig, logger: logging.Logger):
@@ -60,7 +60,7 @@ class MQTTClientWrapper:
                 self.config.broker, 
                 self.config.port, 
                 self.config.keepalive
-            )
+            )#引入外部配置
             self.client.loop_start()
             return True
         except Exception as e:
