@@ -87,3 +87,11 @@
 2025-09-09 13:22:38 - INFO - 报警触发！规则: 温度过低 | 温度: 0.00, 压力: 0, 电机运行: False
 2025-09-09 13:22:41 - INFO - 报警触发！规则: 温度过低 | 温度: 0.00, 压力: 0, 电机运行: False
 2025-09-09 13:22:44 - INFO - 报警监控已停止。
+2025-09-09 14:20:08 - INFO - 报警监控已启动。
+2025-09-09 14:20:08 - INFO - 读取PLC数据时发生错误: b' ISO : An error occurred during send TCP : Connection timed out'
+2025-09-09 14:20:11 - INFO - 读取PLC数据时发生错误: b' ISO : An error occurred during send TCP : Connection timed out'
+2025-09-09 14:20:15 - INFO - 读取PLC数据时发生错误: b' ISO : An error occurred during send TCP : Connection timed out'
+2025-09-09 14:20:18 - INFO - 读取PLC数据时发生错误: b' ISO : An error occurred during send TCP : Connection timed out'
+2025-09-09 14:20:21 - INFO - 读取PLC数据时发生错误: b' ISO : An error occurred during send TCP : Connection timed out'
+2025-09-09 14:20:24 - INFO - 读取PLC数据时发生错误: b' ISO : An error occurred during send TCP : Connection timed out'
+2025-09-09 14:20:27 - INFO - 报警监控已停止。
