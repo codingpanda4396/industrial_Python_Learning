@@ -42,7 +42,7 @@ class Statepoint:
 
             #False->True  触发excite
             if last_state == False and self.state == True:
-                self.pre_reset = False
+                self.pre_reset = False#？
                 self.excite()
                 #True->False 启动保持定时器或重置
             elif last_state == True and self.state == False:
