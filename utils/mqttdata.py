@@ -48,7 +48,7 @@ class Mqttdata:
         if reason_code_list[0].is_failure:
             warnings.warn(f"Broker rejected your subscription: {reason_code_list[0]}")
             if self.logger:
-                self.logger.error(f"Broker rejected you subscription: {reason_code_list[0]}")
+                self.logger.error(f"Broker rejected your subscription: {reason_code_list[0]}")
         else:
             if self.logger:
                 self.logger.info(f"Broker granted the following QoS: {reason_code_list[0].value}")

@@ -1,6 +1,12 @@
 import threading, time
 
 class Statepoint:
+    """数据驱动状态转换，并在转换时做相应的操作
+    （False->True excite）
+     (True->False reset)
+     （converter是数据转换成状态的逻辑）
+     提供了防抖机制，True->False时启动定时器，在定时器时间到后若确实是False，状态才会变为false
+    """
     def __init__(self, initvalue = False, initstate = False):
         self.data = initvalue #数据
         self.state = initstate#状态
@@ -68,6 +74,7 @@ class Statepoint:
         threading.Thread(target=self.__update_state).start()
 
     def allow_update(self, enable: bool = True):
+        """允许公有状态更新(如果内部也允许状态更新，则启动一个异步更新线程)"""
         self.permitted_update = enable
         if enable and self.__private_permitted_update:
             self.__async_update_state()
@@ -110,7 +117,7 @@ class Statepoint:
         self.state = state
 
 class Through_state_continues3(Statepoint):
-    def __init__(self, p1, p2, p3):
+    def __init__(self, p1:Statepoint, p2:Statepoint, p3:Statepoint):
         super().__init__()
         self.point1 = p1
         self.point2 = p2
@@ -118,9 +125,9 @@ class Through_state_continues3(Statepoint):
         self.point1.allow_update(False)
         self.point2.allow_update(False)
         self.point3.allow_update(False)
-        self.point1.set_excite_action(lambda: self.point2.allow_update())
-        self.point2.set_excite_action(lambda: self.point3.allow_update())
-        self.point3.set_excite_action(lambda: self.inject(True))
+        self.point1.set_excite_action(lambda: self.point2.allow_update())#p1激活->允许p2更新
+        self.point2.set_excite_action(lambda: self.point3.allow_update())#p2激活->允许p3更新
+        self.point3.set_excite_action(lambda: self.inject(True))#给类本身注入True
         
         self.point1.set_reset_action(lambda: (None if self.point2.state else self.point2.allow_update(False),
                                               None if self.point2.state or self.point3.state else self.inject(False)))

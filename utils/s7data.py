@@ -49,6 +49,7 @@ class S7Client(snap7.client.Client):
         return res_rtn
 
 class S7data:
+    """负责从CSV文件加载数据点配置、管理PLC连接、组织数据读取、解析数据类型，并通过多线程实现数据的自动更新和变化监听。"""
     def __init__(self, csvfile):
         self.logger = None
 
@@ -56,10 +57,10 @@ class S7data:
         self.lock = threading.Lock()
         self.thread_run = False
         self.threads = []
-        self.nodes = {}
-        self.node_data = {}
-        self.groups = {}
-        self.target_from_name = {}
+        self.nodes = {}  # 存储每个数据点的配置信息（从CSV读取）
+        self.node_data = {} # 存储每个数据点最新的原始字节数据
+        self.groups = {}  # 按组名组织数据点名称，用于分组读取
+        self.target_from_name = {} # 存储注册的监听点（Statepoint）
         with open(csvfile) as f:
             for i in csv.DictReader(f):
                 if i['name'] in self.nodes:
