@@ -2,27 +2,30 @@ import threading, time
 
 class Statepoint:
     def __init__(self, initvalue = False, initstate = False):
-        self.data = initvalue
-        self.state = initstate
-        self.hmd = set()
-        self.lock = threading.Lock()
-        self.permitted_update = True
-        self.__private_permitted_update = True
-        self.converter = lambda data: bool(data)
-        self.do_excite = lambda: None
-        self.do_reset = lambda: None
-        self.keep_time = 1000
-        self.pre_reset = False
+        self.data = initvalue #数据
+        self.state = initstate#状态
+        self.hmd = set()#黑名单 用于过滤不希望触发更新的特定数据值
+        self.lock = threading.Lock()# 确保状态更新操作的线程安全。
+        self.permitted_update = True #公有允许更新标记 为 False时阻塞由 inject方法触发的状态更新。
+        self.__private_permitted_update = True #私有允许更新标记 用于实现内部延迟重置逻辑
+        self.converter = lambda data: bool(data) #数据->状态转换器 将 data转换为布尔类型的 state。
+        self.do_excite = lambda: None #激活 在状态从 False变为 True时被调用。
+        self.do_reset = lambda: None  #重置 在特定条件下状态从 True变为 False时被调用。
+        self.keep_time = 1000         #设置在状态即将变为 False时，延迟重置的等待时间。
+        self.pre_reset = False #标记是否进入延迟重置状态 
+        #True -> 标识系统已经进入了延迟重置状态
+        #False->系统没有延迟重置请求 | 延迟重置已经完成
 
     def hmd_add(self, data):
         self.hmd.add(data)
 
     def inject(self, data):
+        """向状态点注入新数据"""
         if self.data == data or (self.hmd and data in self.hmd):
             return None
-        #数据更新
+        #数据有效->数据更新
         self.data = data
-        #状态更新
+        #公有、私有更新标记均为True->异步触发状态更新
         if self.permitted_update and self.__private_permitted_update:
             self.__async_update_state()
             #self.__update_state()
@@ -35,22 +38,25 @@ class Statepoint:
         self.do_reset()
 
     def __update_state(self):
-        with self.lock:
-            last_state = self.state
-            self.state = self.converter(self.data)
+        with self.lock:#保证线程安全
+            last_state = self.state#记录当前状态
+            self.state = self.converter(self.data)#计算新状态
+            #False->True 
             if last_state == False and self.state == True:
-                self.pre_reset = False
+                self.pre_reset = False#清除标记，激活
                 self.excite()
+            #True->False
             elif last_state == True and self.state == False:
-                if self.keep_time <= 0:
+                if self.keep_time <= 0:#没有设置延迟重置
                     self.reset()
-                elif self.pre_reset:
+                elif self.pre_reset:#延迟时间已到
                     self.pre_reset = False
                     self.reset()
-                else:
-                    self.state = True
-                    self.__private_allow_update(False)
+                else:   #pre_reset==False且有延迟重置->系统尚未进入延迟重置状态 
+                    self.state = True #当前状态保持为True->有一个重置请求待处理 
+                    self.__private_allow_update(False)#不允许私有更新
                     self.pre_reset = True
+                    #定时器到期后允许私有更新并再次调用本函数   
                     timer = threading.Timer(self.keep_time/1000, lambda: self.__private_allow_update())
                     timer.start()
             elif last_state == True and self.state == True:

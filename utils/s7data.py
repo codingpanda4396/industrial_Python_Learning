@@ -2,6 +2,7 @@ import snap7, csv, threading, warnings, time, ctypes
 from utils.statepoint import *
 
 class TS7DataItem(ctypes.Structure):
+    """结构体 描述数据项的区域、类型、起始地址、数据长度等属性"""
     _fields_ = [
         ('Area', ctypes.c_int),
         ('WordLen', ctypes.c_int),
