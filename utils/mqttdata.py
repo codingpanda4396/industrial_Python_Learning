@@ -3,6 +3,7 @@ import json, warnings
 from utils.statepoint import *
 
 class MqttClient(mqtt.Client):
+    """封装MQTT客户端初始化过程"""
     def __init__(self, client_id, username=None, password=None, version=mqtt.CallbackAPIVersion.VERSION2):
         super().__init__(version, client_id)
 
@@ -10,6 +11,7 @@ class MqttClient(mqtt.Client):
             self.username_pw_set(username, password)
 
 class Mqttdata:
+    """负责处理MQTT消息的业务逻辑、数据管理、状态维护"""
     def __init__(self):
         self.logger = None
 

@@ -1,6 +1,5 @@
 import snap7, csv, threading, warnings, time, ctypes
 from utils.statepoint import *
-""""""
 
 
 
@@ -17,6 +16,7 @@ class TS7DataItem(ctypes.Structure):
     ]
 
 class S7Client(snap7.client.Client):
+    """S7Client的封装，提供了一次读取多个DB块的能力"""
     def connect(self, address, rack, slot, tcp_port = 102, retry: bool = True, retry_times: int = 10, max_stay: int = 300):
         if bool(retry) == False:#不进行重试
             return super().connect(address, rack, slot, tcp_port)
