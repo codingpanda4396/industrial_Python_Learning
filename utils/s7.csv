@@ -1,0 +1,9 @@
+name,type,db,start,size,group,read_allow,frequency
+Temperature,real,100,0,4,Sensors,TRUE,1000
+Pressure,real,100,4,4,Sensors,TRUE,1000
+MotorStatus,bool,101,0,1,Motors,TRUE,500
+MotorSpeed,int,101,2,2,Motors,TRUE,500
+StatusWord,boollist,102,0,1,Status,TRUE,200
+ErrorMessage,string,103,0,256,Alarms,TRUE,5000
+ProductionCount,dint,104,0,4,Counters,TRUE,1000
+OperatorName,wstring,105,0,254,Settings,TRUE,10000
