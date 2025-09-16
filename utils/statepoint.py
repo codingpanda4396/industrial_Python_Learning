@@ -117,6 +117,7 @@ class Statepoint:
         self.state = state
 
 class Through_state_continues3(Statepoint):
+    """管理三个连续状态点的激活与重置逻辑，实现一个三步的顺序流程控制"""
     def __init__(self, p1:Statepoint, p2:Statepoint, p3:Statepoint):
         super().__init__()
         self.point1 = p1
@@ -129,10 +130,13 @@ class Through_state_continues3(Statepoint):
         self.point2.set_excite_action(lambda: self.point3.allow_update())#p2激活->允许p3更新
         self.point3.set_excite_action(lambda: self.inject(True))#给类本身注入True
         
+        #p2未激活->禁用p2自动更新  p2、p3均未激活->重置自身
         self.point1.set_reset_action(lambda: (None if self.point2.state else self.point2.allow_update(False),
                                               None if self.point2.state or self.point3.state else self.inject(False)))
+        #p3未激活->禁用p3自动更新 p1未激活->重置自身
         self.point2.set_reset_action(lambda: (None if self.point3.state else self.point3.allow_update(False),
                                               None if self.point1.state else self.inject(False)))
+        #p2未激活则重置自身
         self.point3.set_reset_action(lambda: None if self.point2.state else self.inject(False))
         # self.set_excite_action(lambda: logger.info('经过点已触发'))
         # self.set_reset_action(lambda: logger.info('已前往推钢区域'))
@@ -160,6 +164,7 @@ class Through_state_continues3(Statepoint):
             
 
 class Through_state_separation2(Statepoint):
+    """管理两个分离状态点的激活与重置逻辑，通常用于二元操作流程。"""
     def __init__(self, p1, p2):
         super().__init__()
         self.point1 = p1
@@ -197,6 +202,7 @@ class Through_state_separation2(Statepoint):
             self.permitted_update = True
 
 class Integration_speed_mpmin(Statepoint):
+    """对输入数据（如速度信号）进行积分计算，得到累计量（如位移、产量累计）。"""
     def __init__(self, *args):
         super().__init__(*args)
         self.last_inject_time = time.time()
