@@ -10,7 +10,7 @@ calculating = True
 def conn():
     plc = snap7.client.Client()
     global calculating
-    ip_address = '127.0.0.1'  # 本地回环地址
+    ip_address = '127.0.0.1' 
     rack = 0
     slot = 1
 
@@ -96,17 +96,17 @@ def calculation(plc, lock: Lock):
                 sleep(0.1)
                 continue
 
-        ts = perf_counter()
+        ts = perf_counter()#获取当前时间
         data_hist.append((ts, v, cut, Lcut))#从t1开始到t2的所有采样都被存入队列
 
         # 检测切割信号上升沿
         if (not prev_cut) and cut:
-            #t2 = ts
-            #print(f"检测到切割信号，上升沿时刻 {t2:.2f}s")
+            t2 = ts
+            print(f"检测到切割信号，上升沿时刻 {t2:.2f}s")
             # 开始回溯积分
             Sneed = Lcaster + Lcut  # 需要回溯的距离
             S = 0.0
-            enter_ts = None
+            enter_ts = None# 进入的时间--t1
 
             # 倒序遍历历史数据->t2开始往前，从队列中取出每一次采样的信息，积分直到总位移==28+定尺
             for i in range(len(data_hist)-1, 0, -1):
@@ -120,7 +120,7 @@ def calculation(plc, lock: Lock):
                     # 在 [ts1, ts2_] 区间内找精确进入时刻
                     extra = S - Sneed   #当前段多加的距离
                     frac = (ds - extra) / ds if ds > 0 else 0#这段内所需的位移占整段位移的比例
-                    enter_ts = ts1 + frac * dt #比例*dt得到这段实际需要的时间
+                    enter_ts = ts1 + frac * dt #比例*dt得到这段实际需要的时间  ts1+实际需要的时间->精确时间
                     break
 
             if enter_ts is not None:
@@ -129,18 +129,18 @@ def calculation(plc, lock: Lock):
                 # 计算12m时刻
                 S12 = 0.0
                 t3 = None
-                for i in range(len(data_hist)):
+                for i in range(len(data_hist)):#[0,len)
                     ts1, v1, _, _ = data_hist[i]
-                    if ts1 < enter_ts:#跳过t0之前的数据
+                    if ts1 < enter_ts:#跳过进入点前的数据
                         continue
-                    if i+1 >= len(data_hist):
+                    if i+1 >= len(data_hist):#防止越界
                         break
                     ts2_, v2, _, _ = data_hist[i+1]
                     dt = ts2_ - ts1
-                    vavg = 0.5 * (v1 + v2)
+                    vavg = 0.5 * (v1 + v2)              
                     ds = vavg * dt
                     S12 += ds
-                    if S12 >= 12.0:
+                    if S12 >= 12.0:#线性插值更精确
                         extra = S12 - 12.0
                         frac = (ds - extra) / ds if ds > 0 else 0
                         t3 = ts1 + frac * dt
@@ -153,7 +153,7 @@ def calculation(plc, lock: Lock):
                 print("历史数据不足，无法推算进入时刻。")
 
         prev_cut = cut
-        sleep(0.05)  # 控制采样周期
+        sleep(0.05)  # 控制采样周期--0.05s采样一次
     return None, None, None
 
 
