@@ -15,7 +15,7 @@ class PLCClinet:
         self.db_number = db_number
         self.plc = snap7.client.Client()
         self.lock = threading.Lock()
-    def connect(self):
+    def connect(self)->bool:
         try:
             self.plc.connect(self.ip_address, self.rack, self.slot)
             if self.plc.get_connected():
@@ -35,7 +35,7 @@ class PLCClinet:
                print("plc连接安全断开。。") 
         except Exception as e:
             print(f"PLC断开异常:{e}")
-    def read_data(self,start,size)->bool:
+    def read_data(self,start,size):
         with self.lock:
             try:
                 data = self.plc.db_read(self.db_number,start,size)
@@ -62,7 +62,7 @@ class DataProcessor:
             v = snap7.util.get_real(data, 0)  # 拉速 (m/min)
             cut = snap7.util.get_bool(data, 4, 0)  # 切割信号
             Lcut = snap7.util.get_dword(data, 6) / 1000.0  # 定尺长度 (mm -> m)
-            return {'velocity': v, 'cut_signal': cut, 'cut_length': Lcut}
+            return {'velocity': v, 'cut_signal': cut, 'cut_length': Lcut}#工具类转换之后返回一个字典
         except Exception as e:
             print(f"解析PLC数据异常: {e}")
             return None
@@ -182,7 +182,7 @@ class DataSimulator:
         while self.simulating:
             # 模拟拉速 (m/min) 波动
             pull_speed = 3.0 + random.uniform(-0.5, 0.5)
-            cut_counter += 1
+            cut_counter += 1 
             # 约每3秒翻转一次切割信号
             if cut_counter > 30:
                 cut_signal = not cut_signal
@@ -210,7 +210,7 @@ class ProductionMonitor:
         self.data_simulator=DataSimulator(self.plc_client)
         self.monitoring = False
 
-    def start(self):
+    def start(self):    
         """启动监控系统"""
         if not self.plc_client.connect():
             return False
@@ -230,7 +230,7 @@ class ProductionMonitor:
         self.data_simulator.stop_simulation()
         self.plc_client.disconnect()
         print("监控系统已安全退出")
-    def _main_loop(self):
+    def _main_loop(self):       
         """主循环"""
         while self.monitoring:
             data=self.plc_client.read_data(0,10)

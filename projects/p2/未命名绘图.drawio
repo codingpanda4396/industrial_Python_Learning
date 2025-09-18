@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.1.2 Chrome/138.0.7204.243 Electron/37.4.0 Safari/537.36" version="28.1.2">
   <diagram name="第 1 页" id="9rPCH5xLx7UisnZxytxZ">
-    <mxGraphModel dx="1580" dy="1089" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="763" dy="526" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -140,6 +140,60 @@
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="260" y="560" as="sourcePoint" />
             <mxPoint x="260" y="610" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E85mQL6Q4c73QKy1jOVc-38" value="PLCClient" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="440" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="E85mQL6Q4c73QKy1jOVc-39" value="DataProcessor" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1350" y="440" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="E85mQL6Q4c73QKy1jOVc-40" value="Datasimulator&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1520" y="440" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="E85mQL6Q4c73QKy1jOVc-41" value="ProductionMonitor&lt;div&gt;协调&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1350" y="660" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="E85mQL6Q4c73QKy1jOVc-42" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="E85mQL6Q4c73QKy1jOVc-38">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1300" y="590" as="sourcePoint" />
+            <mxPoint x="1370" y="660" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E85mQL6Q4c73QKy1jOVc-46" value="提供PLC连接和读写" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="E85mQL6Q4c73QKy1jOVc-42">
+          <mxGeometry x="-0.0683" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E85mQL6Q4c73QKy1jOVc-43" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="E85mQL6Q4c73QKy1jOVc-39" target="E85mQL6Q4c73QKy1jOVc-41">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1410" y="580" as="sourcePoint" />
+            <mxPoint x="1460" y="530" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E85mQL6Q4c73QKy1jOVc-47" value="提供PLC数据处理" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="E85mQL6Q4c73QKy1jOVc-43">
+          <mxGeometry x="-0.0966" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E85mQL6Q4c73QKy1jOVc-44" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.849;entryY=-0.002;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryPerimeter=0;" edge="1" parent="1" source="E85mQL6Q4c73QKy1jOVc-40" target="E85mQL6Q4c73QKy1jOVc-41">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1520" y="570" as="sourcePoint" />
+            <mxPoint x="1520" y="730" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E85mQL6Q4c73QKy1jOVc-48" value="提供PLC数据模拟" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="E85mQL6Q4c73QKy1jOVc-44">
+          <mxGeometry x="-0.128" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E85mQL6Q4c73QKy1jOVc-49" value="TimeCalculator&lt;div&gt;提供计算&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1640" y="530" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="E85mQL6Q4c73QKy1jOVc-50" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="E85mQL6Q4c73QKy1jOVc-49" target="E85mQL6Q4c73QKy1jOVc-41">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1590" y="670" as="sourcePoint" />
+            <mxPoint x="1640" y="620" as="targetPoint" />
           </mxGeometry>
         </mxCell>
       </root>
