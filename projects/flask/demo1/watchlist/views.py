@@ -1,44 +1,8 @@
-from flask import Flask, flash, redirect, url_for
-from flask import render_template
-from flask import request
-from flask_sqlalchemy import SQLAlchemy  # 导入扩展类
-import os
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import LoginManager, UserMixin, current_user, login_required, login_user, logout_user
+from flask import render_template, request, url_for, redirect, flash
+from flask_login import login_user, login_required, logout_user, current_user
 
-
-
-app=Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:439695@192.168.56.10/flask_learning'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'dev'  # 等同于 app.secret_key = 'dev'
-
-login_manager = LoginManager(app)  # 实例化扩展类
-
-@login_manager.user_loader
-def load_user(user_id):  # 创建用户加载回调函数，接受用户 ID 作为参数
-    user = User.query.get(int(user_id))  # 用 ID 作为 User 模型的主键查询对应的用户
-    return user  # 返回用户对象
-login_manager.login_view = 'login'
-
-db= SQLAlchemy(app)
-
-class User(db.Model,UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(20))  # 名字
-    username=db.Column(db.String(20))
-    password_hash = db.Column(db.String(128))
-    def set_password(self, password):  # 用来设置密码的方法，接受密码作为参数
-        self.password_hash = generate_password_hash(password)  # 将生成的密码保持到对应字段
-
-    def validate_password(self, password):  # 用于验证密码的方法，接受密码作为参数
-        return check_password_hash(self.password_hash, password)  # 返回布尔值
-
-class Movie(db.Model):
-    id = db.Column(db.Integer, primary_key=True)  # 主键
-    title = db.Column(db.String(60))  # 电影标题
-    year = db.Column(db.String(4))  # 电影年份
-
+from watchlist import app, db
+from watchlist.models import User, Movie
 
 @app.route('/logout')
 @login_required  # 用于视图保护，后面会详细介绍
@@ -148,8 +112,3 @@ def index():
 @app.route("/user/<username>")
 def user(username):
     return render_template("hello.html", name=username)
-
-if __name__=="__main__":
-    app.run(debug=True)
-
-
