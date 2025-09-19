@@ -22,8 +22,8 @@ class Mqttdata:
     def set_logger(self, logger):# 允许外部注入日志记录器
         self.logger = logger
 
-    def set_mqtt_client(self, cli): 
-        self.cli = cli 
+    def set_mqtt_client(self, cli:MqttClient): 
+        self.cli = cli
         #接收客户端实例并设置回调函数
         self.cli.on_connect = self.on_connect
         self.cli.on_message = self.on_message
