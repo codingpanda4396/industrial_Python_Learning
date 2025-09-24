@@ -1,4 +1,5 @@
 from collections import deque
+import datetime
 import threading
 import time
 import s7util as u
@@ -25,6 +26,7 @@ class DataHandler:
 
         self.logger=u.Logger(__name__)
         self.logger.file_on('res.txt')
+        self.logger.screen_on()
         
         #用于连接三个PLC
         self.client1=u.S7Client()
@@ -117,7 +119,7 @@ class DataHandler:
     def _calculate_t0(self,cut_signal_ts:float,length:float,pull_speed_queue:deque[float]):
         """根据给定切割信号时间、定尺、拉速queue,计算t0的timestamp
         """
-        total=28.0+length#钢坯走过的距离
+        total=28.0+length*0.001#钢坯走过的距离
         time_interval=0.5
         S=0.0
         t=cut_signal_ts
@@ -164,7 +166,7 @@ class DataHandler:
             if j < len(self.stream_queue[stream_index]):  # 添加边界检查
                 stream_sum += self.stream_queue[stream_index][j]  # 取指定流在j时刻的流量值
         total_stream=stream_sum*(1.0/7200.0)#计算i流总流量 = sum(瞬时流量)/7200
-        self.logger.debug(f"流{stream_index+1}总流量: {total_stream}m³")    
+        self.logger.debug(f"流{stream_index+1}总流量: {total_stream}立方米")    
 
         #'结晶器流量', '结晶器水温差', '二冷水总管压力',
         #   '结晶器进水温度', '结晶器水压', '二冷水总管温度'
@@ -206,11 +208,11 @@ class DataHandler:
                     stream_values=stream_data[f"流{i+1}"]["values"]
                     #得到每一流的瞬时流量存入对应的流量队列
                     self.stream_queue[i].append(sum( v.get('value')  for v in stream_values))
-                    
+                    self.logger.info(self.stream_queue[i])
                     #切割信号出现上升沿
                     if current_cut_signals[i] and not self.last_cut_signals[i]:
-                        if len(self.pull_speed_queue)>=800:#拉速采样次数满足后计算
-                            cut_signal_time=time.time()#获取当前时间戳
+                        if len(self.pull_speed_queue[i])>=800:#拉速采样次数满足后计算
+                            cut_signal_time=datetime.datetime.now().timestamp()#获取当前时间戳
                             #根据切割信号时间、当前定尺、拉速队列、计算t0 (index1指t0时刻队列中对应的索引)
                             t0,index1=self._calculate_t0(cut_signal_time,self.current_lengths[i],self.pull_speed_queue[i])
                             print(f"{i}流计算得到时间戳：{t0}")
@@ -218,8 +220,10 @@ class DataHandler:
                             t2,index2=self._calculate_t2(t0,self.pull_speed_queue[i],index1)
                             delta_t=t2-t0#拿到了0-12m的时间
                             #计算这段时间内的各流水流量、六个参数的平均值,并存入文件
+                            self.logger.debug(f"index1:{index1},index2:{index2}")
                             self._calculate_data(delta_t,index1,index2,i)
-
+                        else:
+                            self.logger.info(f"{i}流采样数不够。。。")
                     self.last_cut_signals[i]=current_cut_signals[i]
                 time.sleep(0.5) 
 

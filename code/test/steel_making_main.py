@@ -6,6 +6,8 @@ from models.mysql_data import MysqlData
 from models.cip_data import CIPData
 from models.steel_fit import SteelFit
 import pymysql
+"""钢坯拟合主程序"""
+
 
 # 配置S7连接
 s7_1 = S7Client()

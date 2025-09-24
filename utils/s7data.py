@@ -67,17 +67,17 @@ class S7data:
         self.groups = {}  # 按组名组织数据点名称，用于分组读取
         self.target_from_name = {} # 存储注册的监听点（Statepoint）
 
-        #读取一个包含节点信息的CSV文件，确保节点名称唯一，然后按节点名称和组别组织这些信息，并为每个节点分配数据存储空间
-        with open(csvfile) as f:
-            for i in csv.DictReader(f):
-                if i['name'] in self.nodes:
-                    raise Exception(f"S7配置文件节点名称重复：{i['name']}")
+        # 读取一个包含节点信息的CSV文件，确保节点名称唯一，然后按节点名称和组别组织这些信息，并为每个节点分配数据存储空间
+        with open(csvfile) as f: # 使用上下文管理器打开CSV文件，确保文件正确关闭[6,7](@ref)
+            for i in csv.DictReader(f): # 使用csv.DictReader逐行读取CSV文件，每行数据自动转换为字典形式，键为CSV的列头[6,8](@ref)
+                if i['name'] in self.nodes: # 检查当前行的节点名称是否已存在于已有的节点字典中
+                    raise Exception(f"S7配置文件节点名称重复：{i['name']}") # 如果节点名称重复，抛出异常，提示重复的节点名称
                 else:
-                    self.nodes[i['name']] = i
-                    self.node_data[i['name']] = bytearray(int(i['size']))
-                    if i['group'] not in self.groups:
-                        self.groups[i['group']] = []
-                    self.groups[i['group']].append(i['name'])
+                    self.nodes[i['name']] = i # 将当前节点信息（字典i）以节点名称作为键，存入self.nodes字典（K->节点名称 V->节点信息）
+                    self.node_data[i['name']] = bytearray(int(i['size'])) # 根据当前节点配置中的'size'字段，创建相应大小的bytearray，并将其与节点名称关联存入self.node_data字典
+                    if i['group'] not in self.groups: # 检查当前节点的组别是否还未在self.groups字典中注册
+                        self.groups[i['group']] = [] # 如果该组别是新出现的，则在self.groups中为该组创建一个空列表
+                    self.groups[i['group']].append(i['name']) # 将当前节点的名称添加到其对应组别的列表中
 
     def set_logger(self, logger):
         self.logger = logger
@@ -242,6 +242,7 @@ class S7data:
                         self.send(nodesname[i])
 
     def auto_update_group(self):
+        """使用多线程自动更新所有设备组的数据"""
         if self.thread_run:
             return None
         self.threads = []

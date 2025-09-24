@@ -21,6 +21,7 @@ class BufferPoint(Statepoint):
         return res
 
 class billet_data_gatherer:
+    """钢坯数据采集者"""
     def __init__(self, dspeed_point: BufferPoint, cutting_sig_point: Statepoint, sizing_point: Statepoint, flow_rate_point_list: list[BufferPoint],
                  logger: logging.Logger, strand_no: int, result_queue: queue.Queue):
         self.dspeed_point = dspeed_point
@@ -38,11 +39,11 @@ class billet_data_gatherer:
         
     def cutting_action(self):
         cutting_time = datetime.datetime.now().timestamp()
-        sizing = self.sizing_point.data / 1000
+        sizing = self.sizing_point.data / 1000 #mm转换为m
 
         self.logger.debug(f"{self.strand_no}流开始切割")
 
-        time.sleep(30)
+        time.sleep(30)#确保数据采集完整
         dspeed_buffer: deque = self.dspeed_point.get_buffer()
         flow_rate_buffer_list: list[deque] = [self.flow_rate_point_list[i].get_buffer() for i in range(5)]
 
@@ -52,21 +53,26 @@ class billet_data_gatherer:
 
         data_tuple, time_tuple = zip(*dspeed_buffer)
 
-        x = np.array(time_tuple)
-        y = np.array(data_tuple) / 60
-        vt_func = interpolate.interp1d(x, y, kind='cubic')
-        entry_time = self._binary_search_start(vt_func, cutting_time, sizing + self.MOLD_TO_CUTTER_DISTANCE)
+        x = np.array(time_tuple) #时间数组
+        y = np.array(data_tuple) / 60 #拉速转换为m/s
+        vt_func = interpolate.interp1d(x, y, kind='cubic')#三次样条插值
+        entry_time = self._binary_search_start(vt_func, cutting_time, sizing + self.MOLD_TO_CUTTER_DISTANCE)#头部时间
 
         if entry_time == None:
             self.logger.debug(f"{self.strand_no}流已统计数据量不足，无法计算")
             return
         
-        exit_time = self._binary_search_end(vt_func, entry_time, sizing + self.CRITICAL_ZONE_LENGTH)
+        exit_time = self._binary_search_end(vt_func, entry_time, sizing + self.CRITICAL_ZONE_LENGTH)#尾部时间
         dspeed_avg = (sizing + self.CRITICAL_ZONE_LENGTH) / (exit_time - entry_time) * 60
 
         self.create_data(cutting_time, entry_time, exit_time, self.flow_rate_total(flow_rate_buffer_list, entry_time, exit_time), dspeed_avg)
         
     def _binary_search_start(self, func, upper_limit, target):
+        """二分查找计算钢坯进入关键区域时间
+        func：速度-时间插值函数
+        upper_limit：切割时间戳（搜索范围上限）
+
+        """
         left = func.x.min()
         right = func.x.max()
 
@@ -96,6 +102,7 @@ class billet_data_gatherer:
         return (left + right) / 2
 
     def _get_distance(self, vt_func, lower, upper):
+        """通过积分计算移动距离"""
         return integrate.quad(vt_func, lower, upper)[0]
     
     def flow_rate_total(self, deque_list: list[deque], start_time, end_time):
@@ -124,6 +131,7 @@ class billet_data_gatherer:
         self.result_queue.put((self.strand_no, float(cutting_time), float(entry_time), float(exit_time), float(water_total), float(dspeed_avg)))
 
 class SteelFit:
+    """拟合模块"""
     def __init__(self, s7_data_20: S7data, s7_data_215: S7data, cip_data: CIPData, sender: Sender, logger: logging.Logger):
         self.water_temperature_buffer: BufferPoint = cip_data.make_point("5#二冷水总管温度", BufferPoint)
         self.water_pressure_buffer: BufferPoint = cip_data.make_point("5#二冷水总管压力", BufferPoint)
