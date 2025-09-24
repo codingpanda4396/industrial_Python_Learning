@@ -42,6 +42,7 @@ class DataHandler:
         self.stop_event.clear()#清除停止信号
         self.data_thread = threading.Thread(target=self._data_acquisition_loop, daemon=True)#
         self.data_thread.start()
+        print("数据采集线程启动。。")
    
     def stop_data_acquisition(self):
         """停止数据采集线程"""
@@ -83,6 +84,7 @@ class DataHandler:
         for bytes in length_byte_array:
             current_lengths.append(su.get_real(bytes, 0))
         
+        print([current_cut_signals])
         #6个变量+水流量
         other_params = [
             '结晶器流量', '结晶器水温差', '二冷水总管压力',
@@ -138,17 +140,19 @@ class DataHandler:
         """用拉速队列从t0开始计算到12m时的用时"""
         start_index=index
         t=t0
+        s=0.0
+        t3=0
         for i in range(start_index,len(pull_speed_queue)-1):
             v1=pull_speed_queue[i]
             v2=pull_speed_queue[i+1]
             dt=0.5
-            s=(v1+v2)*dt*0.5
+            s+=(v1+v2)*dt*0.5
             t+=dt
             if s>12.0:
                 t3=t
-                index=i
+                index2=i
                 break
-        return t3,index
+        return t3,index2
     
     def _calculate_data(self,delta_t,index1,index2,stream_index):
         """计算delta_t内的总水流量
@@ -200,17 +204,17 @@ class DataHandler:
                     self.current_lengths[i] = current_lengths[i]
                     #dict中的dict中的list
                     stream_values=stream_data[f"流{i+1}"]["values"]
-                    #得到每一流的瞬时流量存入流量队列
+                    #得到每一流的瞬时流量存入对应的流量队列
                     self.stream_queue[i].append(sum( v.get('value')  for v in stream_values))
                     
                     #切割信号出现上升沿
                     if current_cut_signals[i] and not self.last_cut_signals[i]:
                         if len(self.pull_speed_queue)>=800:#拉速采样次数满足后计算
                             cut_signal_time=time.time()#获取当前时间戳
-                            #根据切割信号时间、当前定尺、拉速队列、计算t0 (index指t0时刻队列中对应的索引)
+                            #根据切割信号时间、当前定尺、拉速队列、计算t0 (index1指t0时刻队列中对应的索引)
                             t0,index1=self._calculate_t0(cut_signal_time,self.current_lengths[i],self.pull_speed_queue[i])
                             print(f"{i}流计算得到时间戳：{t0}")
-                            #根据拉速队列，从t0对应的拉速开始计算t2
+                            #根据拉速队列，从t0对应的拉速开始计算t2（index2代表t2时刻队列中对应的索引）
                             t2,index2=self._calculate_t2(t0,self.pull_speed_queue[i],index1)
                             delta_t=t2-t0#拿到了0-12m的时间
                             #计算这段时间内的各流水流量、六个参数的平均值,并存入文件
@@ -224,9 +228,20 @@ class DataHandler:
             
 
 if __name__ == "__main__":
+    print("系统启动...")
     dh=DataHandler()
     dh.conn()
-    dh.start_data_acquisition()
+    print("连接成功")
+    try:
+        dh.start_data_acquisition()
+        while not dh.stop_event.is_set():
+            time.sleep(0.1)
+    except KeyboardInterrupt as e:
+        print("\n接收到中断信号，正在停止...")
+    finally:
+        dh.stop_data_acquisition()
+        print("程序已安全退出")
+    
         
 
 
