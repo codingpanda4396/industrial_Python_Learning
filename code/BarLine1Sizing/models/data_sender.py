@@ -9,7 +9,7 @@ class Sender:
         self.s7data = s7data
         self.mysql_pool = mysql_pool
         self.logger = logger
-        self.point_info = self.get_init_node_info(ipaddr)
+        self.point_info = self.get_init_node_info(ipaddr)#{"看门狗": ("看门狗", 1, "bool"),......}
 
         self.thread_run = True
         self.thread = threading.Thread(target=self.update_all_forever)
@@ -32,12 +32,14 @@ class Sender:
                 i.join()
             self.logger.debug("更新成功")
 
+    #这里的name，就是data_points表中的name字段（看门狗、定尺、流号等......）
     def update_point(self, name):
-        dataid = self.point_info[name][1]
-        datatype = self.point_info[name][2]
+        #获取数据点信息（csv文件中的行）
+        dataid = self.point_info[name][1]#取出id字段
+        datatype = self.point_info[name][2]#取出type字段
         datatype = datatype if datatype != 'dint' else 'int'
         timestamp = datetime.now()
-        datavalue = self.s7data.get_value(name)
+        datavalue = self.s7data.get_value(name)#eg:定尺  从PLC中获取当前值
         sql = "UPDATE realtime_data SET {}_value = %s, timestamp = %s WHERE point_id = %s;".format(datatype)
         sql2 = "INSERT INTO historical_data(point_id, {}_value, timestamp) VALUES(%s, %s, %s);".format(datatype)
         with self.mysql_pool.connection() as conn:
