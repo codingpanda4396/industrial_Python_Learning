@@ -83,7 +83,7 @@ class DataHandler:
         for bytes in cut_signal_byte_array:
             current_cut_signals.append(su.get_bool(bytes, 0, 0))
         for bytes in pull_speed_byte_array:
-            current_pull_speeds.append((su.get_real(bytes, 0),datetime.datetime.timestamp()))#得到拉速、对应时间戳
+            current_pull_speeds.append((su.get_real(bytes, 0),datetime.datetime.now().timestamp()))#得到拉速、对应时间戳
         for bytes in length_byte_array:
             current_lengths.append(su.get_real(bytes, 0))
         
@@ -93,10 +93,9 @@ class DataHandler:
             '结晶器进水温度', '结晶器水压', '二冷水总管温度'
         ]
         #得到{结晶器流量:xxx,......}
-        other_data.update({
-            name: su.get_real(result_buffers[0], i*4)
-            for i, name in enumerate(other_params)
-        })
+        new_data = {name: su.get_real(result_buffers[0], i*4) for i, name in enumerate(other_params)}
+        new_data["timestamp"] = datetime.datetime.now().timestamp()
+        other_data.update(new_data)
 
         buffer = result_buffers[1]
 
@@ -105,7 +104,7 @@ class DataHandler:
             for segment in range(1,6):#每流五段
                 #跳转到当前流起始字节位置+计算之前的段占用的字节数
                 offset=(stream-1)*20+(segment-1)*4
-                value=su.get_real(buffer,offset)
+                value=(su.get_real(buffer,offset),datetime.datetime.now().timestamp())
                 stream_values.append({
                     'segment':segment,
                     'value':value
@@ -144,7 +143,7 @@ class DataHandler:
         speed_tuple,time_tuple=zip(*speed_time_list)
         time_array=np.array(time_tuple)
         speed_array=np.array(speed_tuple)/60.0
-
+        #三次样条插值得到v-t函数
         v_tfunc=CubicSpline(time_array,speed_array,bc_type='natural')
         #2.根据v-t函数积分，t0到t1速度对时间的积分=28+定尺,从而求出t0
         """计算t0到t1的距离"""
@@ -164,9 +163,8 @@ class DataHandler:
             else:
                 t_high=t_mid
         t0=(t_low+t_high)/2
-        start_index = np.searchsorted(time_array, t0, side='right') - 1#返回t0索引    
-        start_index = max(0, min(start_index, len(speed_time_list) - 1))#保证索引不越界
-        return t0,start_index
+        
+        return t0
 
     def _calculate_t2(self,t0,pull_speed_queue,):
         """用拉速队列从t0开始计算到12m时的用时"""
@@ -213,17 +211,15 @@ class DataHandler:
         
         t2 = (t_low + t_high) / 2
         
-        # 找到对应的队列索引
-        end_index = np.searchsorted(time_array, t2, side='right') - 1#返回t2索引    
-        end_index = max(0, min(end_index, len(speed_time_list) - 1))#保证索引不越界
         
-        return t2, end_index
+        
+        return t2
         
         
     
-    def _calculate_data(self, start_index, end_index, stream_index):
-        """计算delta_t内的总水流量
-           计算6个参数在delta_t内的平均值
+    def _calculate_data(self, start_time, end_time, stream_index):
+        """计算t0-t2的总水流量
+           计算6个参数在时间段内的平均值
         """
 
         # stream_sum = 0
@@ -247,26 +243,54 @@ class DataHandler:
         # #求出平均值
         # other_res_list= [data/(index2-index1) for data in other_res_list]
         # self.logger.debug(f"六个参数平均值分别为{other_res_list}")  
-        total_water=0.0
-        count=max(1,end_index-start_index)
 
-        for i in range(start_index,end_index):
-            if i<len(self.stream_queue[stream_index]):
-                flow_rate=self.stream_queue[stream_index][i]
-                total_water+=(flow_rate/3600)*0.5
+
+        total_water=0.0
+        #要计算总水量：
+        #1. 首先要获得总流量-时间函数
+        #2. 对总流量-时间函数在t0-t2上积分
+
+        #该流的流量统计队列,队列中的元素是一个个（stream_values = [{'segment':1,'value':(流量,ts)},{'segment':1,'value':(流量,ts)}...]）
+        #代表了ts时刻的5段流量list
+        
+        queue=self.stream_queue[stream_index]
+        time_list=[]
+        flow_list=[]
+        for stream_values in queue:
+            flow_rate = sum(  stream_values[i].get('value')[0] for i in range(5) )
+            flow_list.append(flow_rate)
+            time_list.append(stream_values[0].get('value')[1])
+        x=np.array(time_list)
+        y=np.array(flow_list)
+        flow_t_func=CubicSpline(x,y)#得到总流量-时间函数
+        total_water=quad(flow_t_func,start_time,end_time)[0]
+        
         self.logger.debug(f"流{stream_index+1}总流量: {total_water:.4f}立方米")
         param_names = [
         '结晶器流量', '结晶器水温差', '二冷水总管压力',
         '结晶器进水温度', '结晶器水压', '二冷水总管温度'
         ]      
-        param_sums = [0.0] * len(param_names)
-        for i in range(start_index, end_index):
-            if i < len(self.other_queue):
-                data = self.other_queue[i]
-                for j, name in enumerate(param_names):
-                    param_sums[j] += data.get(name, 0.0)
-        averages = [total / count for total in param_sums]
-        self.logger.debug(f"六个参数平均值: {[f'{v:.2f}' for v in averages]}")
+        valid_data=[]
+        for data in self.other_queue:
+            data_time=data.get('timestamp',None)
+            if data_time and start_time <= data_time <= end_time:
+                valid_data.append(data)
+        if not valid_data:
+            self.logger.warning(f"流{stream_index+1}在时间范围内没有有效的参数数据")
+            return
+        
+        param_sums = {name: 0.0 for name in param_names}
+        for data in valid_data:
+            for name in param_names:
+                param_sums[name] += data.get(name,0.0)
+        
+        param_avgs = {name: total/len(valid_data) for name, total in param_sums.items()}
+
+        avg_str = ", ".join([f"{name}:{value:.2f}" for name, value in param_avgs.items()])  
+        self.logger.debug(f"流{stream_index+1}六个参数平均值: {avg_str}")
+
+
+
 
     def _data_acquisition_loop(self):
         """数据采集线程的主循环"""
@@ -289,25 +313,25 @@ class DataHandler:
                     self.pull_speed_queue[i].append(current_pull_speeds[i])
                     #存储对应流的定尺
                     self.current_lengths[i] = current_lengths[i]
-                    #dict中的dict中的list
-                    stream_values=stream_data[f"流{i+1}"]["values"]
-                    #得到每一流的瞬时流量存入对应的流量队列
-                    self.stream_queue[i].append(sum( v.get('value')  for v in stream_values))
+                    #拿到该流的5段流量list（dict中的dict中的list）
+                    stream_values=stream_data[f"流{i+1}"]["values"]#stream_values = [{'segment':1,'value':(流量,ts)},{'segment':1,'value':(流量,ts)}...]
+                    #得到每一流的瞬时流量存入对应的(流量,timestamp)队列
+                    self.stream_queue[i].append(stream_values)
                     #切割信号出现上升沿
                     if current_cut_signals[i] and not self.last_cut_signals[i]:
                         if len(self.pull_speed_queue[i])>=1500:#拉速采样次数满足后计算
                             cut_signal_time=datetime.datetime.now().timestamp()#获取当前时间戳
                             #根据切割信号时间、当前定尺、拉速队列、计算t0 
-                            t0,start_index=self._calculate_t0(cut_signal_time,self.current_lengths[i],self.pull_speed_queue[i])
+                            t0=self._calculate_t0(cut_signal_time,self.current_lengths[i],self.pull_speed_queue[i])
                             self.logger.info(f"钢坯行走用时：{(cut_signal_time-t0)/60.0}min")
                             print(f"{i}流计算得到时间戳：{t0}")
                             #根据拉速队列，从t0对应的拉速开始计算t2
-                            t2,end_index=self._calculate_t2(t0,self.pull_speed_queue[i])
+                            t2=self._calculate_t2(t0,self.pull_speed_queue[i])
                             
                             #计算这段时间内的各流水流量、六个参数的平均值,并存入文件
-                            self._calculate_data(start_index, end_index, i)
+                            self._calculate_data(t0,t2, i)
                         else:
-                            self.logger.info(f"{i}流采样数不够。。。")
+                            self.logger.info(f"{i+1}流采样数不够。。。")
                     self.last_cut_signals[i]=current_cut_signals[i]
                 time.sleep(0.5) 
 

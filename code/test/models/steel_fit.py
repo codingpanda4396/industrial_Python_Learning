@@ -105,6 +105,7 @@ class billet_data_gatherer:
         """通过积分计算移动距离"""
         return integrate.quad(vt_func, lower, upper)[0]
     
+                                #五段流量队列
     def flow_rate_total(self, deque_list: list[deque], start_time, end_time):
         res = []
         for dequei in deque_list:
