@@ -5,7 +5,8 @@ import time
 import s7util as u
 import snap7.util as su
 import numpy as np
-
+from  scipy.interpolate import CubicSpline
+from  scipy.integrate import quad
 class DataHandler:
     def __init__(self,stream_count=8):
         #流数           
@@ -25,7 +26,7 @@ class DataHandler:
         self.data_thread = None
 
         self.logger=u.Logger(__name__)
-        self.logger.file_on('res.txt')
+        self.logger.file_on('res.log')
         self.logger.screen_on()
         
         #用于连接三个PLC
@@ -42,7 +43,7 @@ class DataHandler:
     def start_data_acquisition(self):
         """启动数据采集线程"""
         self.stop_event.clear()#清除停止信号
-        self.data_thread = threading.Thread(target=self._data_acquisition_loop, daemon=True)#
+        self.data_thread = threading.Thread(target=self._data_acquisition_loop, daemon=True)
         self.data_thread.start()
         print("数据采集线程启动。。")
    
@@ -82,11 +83,10 @@ class DataHandler:
         for bytes in cut_signal_byte_array:
             current_cut_signals.append(su.get_bool(bytes, 0, 0))
         for bytes in pull_speed_byte_array:
-            current_pull_speeds.append(su.get_real(bytes, 0))
+            current_pull_speeds.append((su.get_real(bytes, 0),datetime.datetime.timestamp()))#得到拉速、对应时间戳
         for bytes in length_byte_array:
             current_lengths.append(su.get_real(bytes, 0))
         
-        print([current_cut_signals])
         #6个变量+水流量
         other_params = [
             '结晶器流量', '结晶器水温差', '二冷水总管压力',
@@ -116,72 +116,157 @@ class DataHandler:
                 'values':stream_values
             }
         
-    def _calculate_t0(self,cut_signal_ts:float,length:float,pull_speed_queue:deque[float]):
+    def _calculate_t0(self,cut_signal_ts:float,length:float,pull_speed_queue:deque[(float,float)]):
         """根据给定切割信号时间、定尺、拉速queue,计算t0的timestamp
         """
-        total=28.0+length*0.001#钢坯走过的距离
-        time_interval=0.5
-        S=0.0
-        t=cut_signal_ts
-        t0=0
-        index=0
-        for i in range(len(pull_speed_queue)-1,0,-1):#倒序遍历队列
-            v1=pull_speed_queue[i-1]
-            v2=pull_speed_queue[i]
-            dt=time_interval
-            ds=dt*0.5*(v1+v2)
-            S+=ds
-            t-=dt#切割时间减去一个个time_interval，得到
-            if S>total:
-                t0=t
-                index=i
-                break
-        return t0,index
+        # total=28.0+length*0.001#钢坯走过的距离
+        # time_interval=0.5
+        # S=0.0
+        # t=cut_signal_ts
+        # t0=0
+        # index=0
+        # for i in range(len(pull_speed_queue)-1,0,-1):#倒序遍历队列
+        #     v1=pull_speed_queue[i-1]
+        #     v2=pull_speed_queue[i]
+        #     dt=time_interval
+        #     ds=dt*0.5*(v1+v2)
+        #     S+=ds
+        #     t-=dt#切割时间减去一个个time_interval，得到
+        #     if S>total:
+        #         t0=t
+        #         index=i
+        #         break
+        # return t0,index
+        total = 28.0+length*0.001#t0-t1钢坯走过的长度
+        t1=cut_signal_ts
+        #1.得到v-t函数(拉速-时间戳)
+        speed_time_list=list(pull_speed_queue)
+        speed_tuple,time_tuple=zip(*speed_time_list)
+        time_array=np.array(time_tuple)
+        speed_array=np.array(speed_tuple)/60.0
 
-    def _calculate_t2(self,t0,pull_speed_queue,index):
+        v_tfunc=CubicSpline(time_array,speed_array,bc_type='natural')
+        #2.根据v-t函数积分，t0到t1速度对时间的积分=28+定尺,从而求出t0
+        """计算t0到t1的距离"""
+        def cal_len(t0):
+            return quad(v_tfunc,t0,t1)[0]
+        
+        t_low=time_array[0]#最早可能的时间
+        t_high = cut_signal_ts#最晚可能的时间
+        tolerance=1e-6#精度控制
+
+        while abs(t_high-t_low)>tolerance:
+            t_mid=(t_low+t_high)/2
+            cur_len=cal_len(t_mid)
+
+            if cur_len>total:
+                t_low=t_mid 
+            else:
+                t_high=t_mid
+        t0=(t_low+t_high)/2
+        start_index = np.searchsorted(time_array, t0, side='right') - 1#返回t0索引    
+        start_index = max(0, min(start_index, len(speed_time_list) - 1))#保证索引不越界
+        return t0,start_index
+
+    def _calculate_t2(self,t0,pull_speed_queue,):
         """用拉速队列从t0开始计算到12m时的用时"""
-        start_index=index
-        t=t0
-        s=0.0
-        t3=0
-        for i in range(start_index,len(pull_speed_queue)-1):
-            v1=pull_speed_queue[i]
-            v2=pull_speed_queue[i+1]
-            dt=0.5
-            s+=(v1+v2)*dt*0.5
-            t+=dt
-            if s>12.0:
-                t3=t
-                index2=i
-                break
-        return t3,index2
+        # start_index=index
+        # t=t0
+        # s=0.0
+        # t3=0
+        # for i in range(start_index,len(pull_speed_queue)-1):
+        #     v1=pull_speed_queue[i]
+        #     v2=pull_speed_queue[i+1]
+        #     dt=0.5
+        #     s+=(v1+v2)*dt*0.5
+        #     t+=dt
+        #     if s>12.0:
+        #         t3=t
+        #         index2=i
+        #         break
+        # return t3,index2
+
+        speed_time_list=list(pull_speed_queue)
+        
+        speeds,timestamps=zip(*speed_time_list)#得到(v1,v2,v3...) (t1,t2,t3,...)
+        time_array = np.array(timestamps)
+        speed_array = np.array(speeds) / 60.0  # 转换为米/秒
+
+        v_tfunc=CubicSpline(time_array, speed_array, bc_type='natural')
+        # 定义积分函数：从t0到t的距离
+        def distance_func(t):
+            return quad(v_tfunc, t0, t)[0]
+        
+        t_low = t0
+        t_high = time_array[-1]  # 队列中最后的时间点
+        tolerance = 1e-6  # 精度控制
+        
+        # 二分查找
+        while abs(t_high - t_low) > tolerance:
+            t_mid = (t_low + t_high) / 2
+            current_distance = distance_func(t_mid)
+            
+            if current_distance < 12.0:
+                t_low = t_mid
+            else:
+                t_high = t_mid
+        
+        t2 = (t_low + t_high) / 2
+        
+        # 找到对应的队列索引
+        end_index = np.searchsorted(time_array, t2, side='right') - 1#返回t2索引    
+        end_index = max(0, min(end_index, len(speed_time_list) - 1))#保证索引不越界
+        
+        return t2, end_index
+        
+        
     
-    def _calculate_data(self,delta_t,index1,index2,stream_index):
+    def _calculate_data(self, start_index, end_index, stream_index):
         """计算delta_t内的总水流量
            计算6个参数在delta_t内的平均值
         """
 
-        stream_sum = 0
-        for j in range(index1,index2):
-            if j < len(self.stream_queue[stream_index]):  # 添加边界检查
-                stream_sum += self.stream_queue[stream_index][j]  # 取指定流在j时刻的流量值
-        total_stream=stream_sum*(1.0/7200.0)#计算i流总流量 = sum(瞬时流量)/7200
-        self.logger.debug(f"流{stream_index+1}总流量: {total_stream}立方米")    
+        # stream_sum = 0
+        # for j in range(index1,index2):
+        #     if j < len(self.stream_queue[stream_index]):  # 添加边界检查
+        #         stream_sum += self.stream_queue[stream_index][j]  # 取指定流在j时刻的流量值
+        # total_stream=stream_sum*(1.0/7200.0)#计算i流总流量 = sum(瞬时流量)/7200
+        # self.logger.debug(f"流{stream_index+1}总流量: {total_stream}立方米")    
 
-        #'结晶器流量', '结晶器水温差', '二冷水总管压力',
-        #   '结晶器进水温度', '结晶器水压', '二冷水总管温度'
-        other_res_list=[0.0]*6
-        for i in range(index1,index2):
-            other_data=self.other_queue[i]
-            other_res_list[0] += other_data['结晶器流量']
-            other_res_list[1] += other_data['结晶器水温差']
-            other_res_list[2] += other_data['二冷水总管压力']
-            other_res_list[3] += other_data['结晶器进水温度']
-            other_res_list[4] += other_data['结晶器水压']
-            other_res_list[5] += other_data['二冷水总管温度']
-        #求出平均值
-        other_res_list= [data/(index2-index1) for data in other_res_list]
-        self.logger.debug(f"六个参数平均值分别为{other_res_list}")        
+        # #'结晶器流量', '结晶器水温差', '二冷水总管压力',
+        # #   '结晶器进水温度', '结晶器水压', '二冷水总管温度'
+        # other_res_list=[0.0]*6
+        # for i in range(index1,index2):
+        #     other_data=self.other_queue[i]
+        #     other_res_list[0] += other_data['结晶器流量']
+        #     other_res_list[1] += other_data['结晶器水温差']
+        #     other_res_list[2] += other_data['二冷水总管压力']
+        #     other_res_list[3] += other_data['结晶器进水温度']
+        #     other_res_list[4] += other_data['结晶器水压']
+        #     other_res_list[5] += other_data['二冷水总管温度']
+        # #求出平均值
+        # other_res_list= [data/(index2-index1) for data in other_res_list]
+        # self.logger.debug(f"六个参数平均值分别为{other_res_list}")  
+        total_water=0.0
+        count=max(1,end_index-start_index)
+
+        for i in range(start_index,end_index):
+            if i<len(self.stream_queue[stream_index]):
+                flow_rate=self.stream_queue[stream_index][i]
+                total_water+=(flow_rate/3600)*0.5
+        self.logger.debug(f"流{stream_index+1}总流量: {total_water:.4f}立方米")
+        param_names = [
+        '结晶器流量', '结晶器水温差', '二冷水总管压力',
+        '结晶器进水温度', '结晶器水压', '二冷水总管温度'
+        ]      
+        param_sums = [0.0] * len(param_names)
+        for i in range(start_index, end_index):
+            if i < len(self.other_queue):
+                data = self.other_queue[i]
+                for j, name in enumerate(param_names):
+                    param_sums[j] += data.get(name, 0.0)
+        averages = [total / count for total in param_sums]
+        self.logger.debug(f"六个参数平均值: {[f'{v:.2f}' for v in averages]}")
 
     def _data_acquisition_loop(self):
         """数据采集线程的主循环"""
@@ -208,20 +293,19 @@ class DataHandler:
                     stream_values=stream_data[f"流{i+1}"]["values"]
                     #得到每一流的瞬时流量存入对应的流量队列
                     self.stream_queue[i].append(sum( v.get('value')  for v in stream_values))
-                    self.logger.info(self.stream_queue[i])
                     #切割信号出现上升沿
                     if current_cut_signals[i] and not self.last_cut_signals[i]:
-                        if len(self.pull_speed_queue[i])>=800:#拉速采样次数满足后计算
+                        if len(self.pull_speed_queue[i])>=1500:#拉速采样次数满足后计算
                             cut_signal_time=datetime.datetime.now().timestamp()#获取当前时间戳
-                            #根据切割信号时间、当前定尺、拉速队列、计算t0 (index1指t0时刻队列中对应的索引)
-                            t0,index1=self._calculate_t0(cut_signal_time,self.current_lengths[i],self.pull_speed_queue[i])
+                            #根据切割信号时间、当前定尺、拉速队列、计算t0 
+                            t0,start_index=self._calculate_t0(cut_signal_time,self.current_lengths[i],self.pull_speed_queue[i])
+                            self.logger.info(f"钢坯行走用时：{(cut_signal_time-t0)/60.0}min")
                             print(f"{i}流计算得到时间戳：{t0}")
-                            #根据拉速队列，从t0对应的拉速开始计算t2（index2代表t2时刻队列中对应的索引）
-                            t2,index2=self._calculate_t2(t0,self.pull_speed_queue[i],index1)
-                            delta_t=t2-t0#拿到了0-12m的时间
+                            #根据拉速队列，从t0对应的拉速开始计算t2
+                            t2,end_index=self._calculate_t2(t0,self.pull_speed_queue[i])
+                            
                             #计算这段时间内的各流水流量、六个参数的平均值,并存入文件
-                            self.logger.debug(f"index1:{index1},index2:{index2}")
-                            self._calculate_data(delta_t,index1,index2,i)
+                            self._calculate_data(start_index, end_index, i)
                         else:
                             self.logger.info(f"{i}流采样数不够。。。")
                     self.last_cut_signals[i]=current_cut_signals[i]
