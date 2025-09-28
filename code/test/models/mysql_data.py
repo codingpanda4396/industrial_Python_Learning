@@ -5,6 +5,7 @@ from dbutils.pooled_db import PooledDB
 
 
 class MysqlData:
+    """mysql与PLC的数据交互"""
     def __init__(self, mysql_pool: PooledDB, s7conn: S7Client, logger: Logger):
         self.mysql_pool = mysql_pool
         self.s7conn = s7conn

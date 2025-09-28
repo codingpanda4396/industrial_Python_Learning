@@ -56,13 +56,13 @@ class billet_data_gatherer:
         x = np.array(time_tuple) #时间数组
         y = np.array(data_tuple) / 60 #拉速转换为m/s
         vt_func = interpolate.interp1d(x, y, kind='cubic')#三次样条插值
-        entry_time = self._binary_search_start(vt_func, cutting_time, sizing + self.MOLD_TO_CUTTER_DISTANCE)#头部时间
+        entry_time = self._binary_search_start(vt_func, cutting_time, sizing + self.MOLD_TO_CUTTER_DISTANCE)#头部进入结晶器
 
         if entry_time == None:
             self.logger.debug(f"{self.strand_no}流已统计数据量不足，无法计算")
             return
         
-        exit_time = self._binary_search_end(vt_func, entry_time, sizing + self.CRITICAL_ZONE_LENGTH)#尾部时间
+        exit_time = self._binary_search_end(vt_func, entry_time, sizing + self.CRITICAL_ZONE_LENGTH)#尾部离开结晶器
         dspeed_avg = (sizing + self.CRITICAL_ZONE_LENGTH) / (exit_time - entry_time) * 60
 
         self.create_data(cutting_time, entry_time, exit_time, self.flow_rate_total(flow_rate_buffer_list, entry_time, exit_time), dspeed_avg)

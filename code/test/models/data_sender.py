@@ -5,6 +5,7 @@ from datetime import datetime
 import pymysql, threading, time
 
 class Sender:
+    """PLC中读取数据并存入mysql"""
     def __init__(self, s7data: S7data, mysql_pool: PooledDB, logger: Logger, ipaddr):
         self.s7data = s7data
         self.mysql_pool = mysql_pool

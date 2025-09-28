@@ -5,6 +5,7 @@ from threading import Thread
 import time
 
 class CIPData:
+    """实时采集、分发PLC数据，多线程读取设备状态并支持数据变化监听"""
     __sentinel = object()
 
     def __init__(self, ip = ''):
@@ -65,6 +66,7 @@ class CIPData:
             print("An abnormal connection with the PLC occurred.")
 
     def start_update(self):
+        """启动后台线程持续读取PLC数据并更新本地缓存"""
         if self.thread_update or self.thread_run:
             raise ChildProcessError("This thread cannot be started now.")
         
