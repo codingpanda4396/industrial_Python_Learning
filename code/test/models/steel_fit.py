@@ -17,8 +17,9 @@ class BufferPoint(Statepoint):
     def get_buffer(self):
         res = self.data.copy()
         last = res[-1][0]
-        res.append((last, datetime.datetime.now().timestamp() + 0.001))
+        res.append((last, datetime.datetime.now().timestamp() + 0.001))#确保时间序列完整性
         return res
+    
 
 class billet_data_gatherer:
     """钢坯数据采集者"""
@@ -62,7 +63,7 @@ class billet_data_gatherer:
             self.logger.debug(f"{self.strand_no}流已统计数据量不足，无法计算")
             return
         
-        exit_time = self._binary_search_end(vt_func, entry_time, sizing + self.CRITICAL_ZONE_LENGTH)#尾部离开结晶器
+        exit_time = self._binary_search_end(vt_func, entry_time, sizing + self.CRITICAL_ZONE_LENGTH)#尾部离开关键区域
         dspeed_avg = (sizing + self.CRITICAL_ZONE_LENGTH) / (exit_time - entry_time) * 60
 
         self.create_data(cutting_time, entry_time, exit_time, self.flow_rate_total(flow_rate_buffer_list, entry_time, exit_time), dspeed_avg)
@@ -134,6 +135,7 @@ class billet_data_gatherer:
 class SteelFit:
     """拟合模块"""
     def __init__(self, s7_data_20: S7data, s7_data_215: S7data, cip_data: CIPData, sender: Sender, logger: logging.Logger):
+        #初始化需要的数据点
         self.water_temperature_buffer: BufferPoint = cip_data.make_point("5#二冷水总管温度", BufferPoint)
         self.water_pressure_buffer: BufferPoint = cip_data.make_point("5#二冷水总管压力", BufferPoint)
         self.steel_temperature_buffer: BufferPoint = s7_data_20.make_point("中间包连续测温温度", BufferPoint)
@@ -150,6 +152,7 @@ class SteelFit:
 
         self.billet_data_gatherer_list = [
             billet_data_gatherer(
+                #传入拉速、切割信号、定尺、流量list
                 self.dspeed_buffer[i],
                 self.cutting_sig_point[i],
                 self.sizing_point[i],
@@ -169,6 +172,7 @@ class SteelFit:
         while self.thread_run:
             try:
                 task_tuple = self.task_queue.get(True, 1)
+                #得到(strand_no, cutting_time, entry_time, exit_time, water_total, dspeed_avg)
                 tmp_dict = {}
                 tmp_dict["strand_no"] = task_tuple[0]
                 tmp_dict["cutting_time"] = datetime.datetime.fromtimestamp(task_tuple[1])

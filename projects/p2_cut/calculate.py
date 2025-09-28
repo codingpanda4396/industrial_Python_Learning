@@ -8,6 +8,7 @@ import numpy as np
 from  scipy.interpolate import CubicSpline
 from  scipy.integrate import quad
 class DataHandler:
+    """处理并计算流量等数据"""
     def __init__(self,stream_count=8):
         #流数           
         self.stream_count=stream_count
