@@ -2,13 +2,13 @@ from collections import deque
 import datetime
 import threading
 import time
-import s7util as u
+import utils.s7util as u
 import snap7.util as su
 import numpy as np
 from  scipy.interpolate import CubicSpline
 from  scipy.integrate import quad
 class DataHandler:
-    """处理并计算流量等数据"""
+    """从PLC中读数据，处理并计算流量等数据"""
     def __init__(self,stream_count=8):
         #流数           
         self.stream_count=stream_count
