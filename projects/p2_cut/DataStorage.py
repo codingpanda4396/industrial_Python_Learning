@@ -25,7 +25,9 @@ class DataStorage:
     def push_streams(self, stream_data):
         """将水流量数据结构解析并存入队列"""
         for i in range(self.stream_count):
+            #stream_data->{"流1": {"values": [{"segment": 1, "value": (117.123, 172123213121.12)}]}}
             self.stream_queue[i].append(stream_data[f"流{i+1}"]['values'])
+            #加入队列的是->[{"segment": 1, "value": (117.123, 172123213121.12)}]
 
     def push_other(self, other):
         """其他计算量存入队列"""

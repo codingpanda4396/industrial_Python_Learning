@@ -74,7 +74,7 @@ class PlcConnector:
             other_data['timestamp'] = time.time()
 
             buffer = result_buffers[1]
-            stream_data = {}
+            stream_data = {}#{"流1": {"values": [{"segment": 1, "value": (117.123, 172123213121.12)}]}}
             for stream in range(1,9):
                 stream_values = []
                 for segment in range(1,6):

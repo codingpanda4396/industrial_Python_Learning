@@ -1,4 +1,6 @@
 from collections import deque
+from scipy import interpolate
+from scipy import integrate
 from scipy.interpolate import CubicSpline
 import numpy as np
 from utils import s7util as su
@@ -7,7 +9,7 @@ from scipy.integrate import quad
 class Calculator:
     def __init__(self):
         self.logger =su.Logger(__name__)
-        self.logger.screen_on()
+        self.logger.screen_on() 
         self.logger.file_on()
     def _make_v_t_func(self,pull_speed_queue:deque):
         speed_time_list=list(pull_speed_queue)
@@ -44,7 +46,7 @@ class Calculator:
         return t0 
         
     def calc_t2(self, t0:float, pull_speed_queue:deque, length:float):
-        v_tfunc, time_array = self._make_v_tfunc(pull_speed_queue)
+        v_tfunc, time_array = self._make_v_t_func(pull_speed_queue)
         def distance_func(t):
             return quad(v_tfunc, t0, t)[0]
         t_low = float(t0)
@@ -66,12 +68,12 @@ class Calculator:
         # 计算总水量
         time_list = []
         flow_list = []
+        #stream_queuez中的元素eg->[{"segment": 1, "value": (117.123, 172123213121.12)}]
         for stream_values in stream_queue:
-            # stream_values 是 [{'segment':i,'value':(flow,ts)}, ...]
             if not stream_values:
                 continue
-            flow_rate = sum(s.get('value')[0] for s in stream_values)
-            ts = stream_values[0].get('value')[1]
+            flow_rate = sum(s.get('value')[0] for s in stream_values)#计算各段流量和
+            ts = stream_values[0].get('value')[1]#获取时间戳
             time_list.append(ts)
             flow_list.append(flow_rate)
         if len(time_list) < 2:
@@ -82,15 +84,14 @@ class Calculator:
             x = np.array(time_list)
             y = np.array(flow_list) / 3600.0  # 转为 m^3/s
             flow_t_func = CubicSpline(x, y)
-            total_water = quad(flow_t_func, start_time, end_time)[0]
-            # 平均流速（m^3/s）
-            avg_flow_rate = total_water / (end_time - start_time) if end_time > start_time else 0.0
+            total_water = quad(flow_t_func, start_time, end_time)[0]#得到 前12m 5段水流量综合
 
         # 计算6个参数平均值
         param_names = [
             '结晶器流量', '结晶器水温差', '二冷水总管压力',
             '结晶器进水温度', '结晶器水压', '二冷水总管温度'
         ]
+        #other_queue中的内容：纯字典，key是name value是对应的数值
         valid = [d for d in other_queue if start_time <= d.get('timestamp', 0) <= end_time]
         if not valid:
             self.logger.warning('在时间范围内没有参数数据')
@@ -99,7 +100,23 @@ class Calculator:
             sums = {name:0.0 for name in param_names}
             for d in valid:
                 for name in param_names:
-                    sums[name] += d.get(name, 0.0)
-            avg_params = {name: sums[name]/len(valid) for name in param_names}
+                    sums[name] += d.get(name, 0.0)#对每个name，累加有效数据中的值
+            avg_params = {name: sums[name]/len(valid) for name in param_names}#总和/有效数据条数 {name:平均值}
+        #计算二冷水水压标准差
+
 
         return total_water, avg_params, avg_flow_rate
+    
+    def interval_sd(self, buffer, left, right):
+        data_tuple, time_tuple = zip(*buffer)
+        x = np.array(time_tuple)
+        y = np.array(data_tuple)
+        func = interpolate.interp1d(x, y, kind = "cubic")
+        inte = integrate.quad(func, left, right)[0]
+        avg = inte / (right - left)
+
+        func2 = lambda x: (func(x) - avg) ** 2
+        inte2 = integrate.quad(func2, left, right)[0]
+        avg2 = inte2 / (right - left)
+
+        return avg2 ** 0.5
