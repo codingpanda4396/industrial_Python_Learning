@@ -1,3 +1,4 @@
+import datetime
 import threading
 import time
 import traceback
@@ -69,7 +70,7 @@ class DataHandler:
                         #     '二冷水总管温度': 32.1,      # float类型，来自result_buffers的20字节偏移
                         #     'timestamp': 1630000000.123 # float类型，记录数据采集时间
                         # }
-                        self.persist.save_flow_event(i, cut_ts,t0, t2,avg_params['二冷水总管温度'],avg_params['二冷水总管压力']
+                        self.persist.save_flow_event(i, datetime.datetime.fromtimestamp(cut_ts),datetime.datetime.fromtimestamp(t0), datetime.datetime.fromtimestamp(t2),avg_params['二冷水总管温度'],avg_params['二冷水总管压力']
                                                      , total_water,0,0,0,avg_params['结晶器水温差'])
 
 

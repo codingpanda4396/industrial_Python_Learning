@@ -1,6 +1,7 @@
 import pymysql
 from utils.s7util import Logger
 from dbutils.pooled_db import PooledDB
+import datetime
 
 class Persistence():
     def __init__(self):
@@ -36,7 +37,7 @@ class Persistence():
         with self.pool.connection() as conn:
             try:
                 with conn.cursor() as cur:
-                    cur.execute(sql,i,cutting_time, t0, t2,water_temperature, water_pressure,water_volume, water_pressure_sd, steel_temperature,drawing_speed, water_temperature_difference)
+                    cur.execute(sql,(i,cutting_time, t0, t2,water_temperature, water_pressure,water_volume, water_pressure_sd, steel_temperature,drawing_speed, water_temperature_difference))
                     conn.commit()
                     return True
             except pymysql.Error as e:
