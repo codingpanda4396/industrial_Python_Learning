@@ -80,11 +80,6 @@ class S7Client(snap7.client.Client):
         res_rtn = [bytearray(i) for i in buffers]
         return res_rtn
 
-class PLCReader:
-    def __init__(self):
-        pass
-    
-
 
 import logging
 from logging.handlers import RotatingFileHandler
