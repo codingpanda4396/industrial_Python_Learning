@@ -56,7 +56,7 @@ class DataHandler:
                         t0 = self.calc.calc_t0(cut_ts, self.storage.current_lengths[i], self.storage.pull_speed_queue[i])
                         t2 = self.calc.calc_t2(t0, self.storage.pull_speed_queue[i], self.storage.current_lengths[i])
 
-                        total_water, avg_params, avg_flow_rate = self.calc.calc_total_water_and_avg_params(t0, t2, self.storage.stream_queue[i], self.storage.other_queue)
+                        total_water, avg_params = self.calc.calc_total_water_and_avg_params(t0, t2, self.storage.stream_queue[i], self.storage.other_queue)
 
                         # 持久化
                         #avg_params:
@@ -96,4 +96,12 @@ class DataHandler:
 
 if __name__ ==  "__main__":
     dh=DataHandler(8)
-    dh.start()
+    try:
+        dh.start()
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt as e:
+        dh.stop()
+
+    
+

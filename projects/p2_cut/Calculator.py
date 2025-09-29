@@ -105,7 +105,7 @@ class Calculator:
         #计算二冷水水压标准差
 
 
-        return total_water, avg_params, avg_flow_rate
+        return total_water, avg_params
     
     def interval_sd(self, buffer, left, right):
         data_tuple, time_tuple = zip(*buffer)
