@@ -11,7 +11,8 @@ class Calculator:
         self.logger =su.Logger(__name__)
         self.logger.screen_on() 
         self.logger.file_on()
-    def _make_v_t_func(self,pull_speed_queue:deque):
+
+    def make_v_t_func(self,pull_speed_queue:deque):
         speed_time_list=list(pull_speed_queue)
         if len(speed_time_list)<4:
             raise ValueError("数据过少无法插值")
@@ -19,6 +20,7 @@ class Calculator:
         t_arr = np.array(times)
         v_arr = np.array(speeds) / 60.0
         return CubicSpline(t_arr, v_arr, bc_type='natural'), t_arr   
+    
     def calc_t0(self, cut_signal_ts:float, length:float, pull_speed_queue:deque):
         total = 28.0 + length * 0.001
         t1 = cut_signal_ts
@@ -106,7 +108,7 @@ class Calculator:
 
 
         return total_water, avg_params
-    
+
     def interval_sd(self, buffer, left, right):
         data_tuple, time_tuple = zip(*buffer)
         x = np.array(time_tuple)

@@ -1,10 +1,7 @@
 import snap7, csv, threading, warnings, time, ctypes
 from utils.statepoint import *
 
-
-
 class TS7DataItem(ctypes.Structure):
-    """结构体 描述数据项的区域、类型、起始地址、数据长度等属性"""
     _fields_ = [
         ('Area', ctypes.c_int),
         ('WordLen', ctypes.c_int),
@@ -16,28 +13,7 @@ class TS7DataItem(ctypes.Structure):
     ]
 
 class S7Client(snap7.client.Client):
-    """S7Client的封装，提供了一次读取多个DB块的能力"""
-    def connect(self, address, rack, slot, tcp_port = 102, retry: bool = True, retry_times: int = 10, max_stay: int = 300):
-        if bool(retry) == False:#不进行重试
-            return super().connect(address, rack, slot, tcp_port)
-        
-        stay = 1#重试间隔   
-        while retry_times == 0 or retry_times > 1:
-            try:
-                return super().connect(address, rack, slot, tcp_port)
-            except:
-                if retry_times > 1:
-                    retry_times -= 1#--重试次数
-                time.sleep(stay)
-                stay *= 2#指数退避策略
-                if stay > max_stay:#限制最大重试间隔
-                    stay = max_stay
-        
-        return super().connect(address, rack, slot, tcp_port)
-
     def multi_db_read_py(self, db_number: list, start: list, size: list):
-        """一次性读取多个DB块的不同区域
-        """
         count = len(size)
         buffers = [ctypes.create_string_buffer(i) for i in size]
         params = []
@@ -54,29 +30,27 @@ class S7Client(snap7.client.Client):
         return res_rtn
 
 class S7data:
-    """负责从CSV文件加载数据点配置、管理PLC连接、组织数据读取、解析数据类型，并通过多线程实现数据的自动更新和变化监听。"""
     def __init__(self, csvfile):
         self.logger = None
 
         self.S7Client = None
         self.lock = threading.Lock()
-        self.thread_run = False #运行标志
-        self.threads = []   #存储所有数据更新线程
-        self.nodes = {}     #存储csv中的数据点信息
-        self.node_data = {} #存储每个点的byte数据
-        self.groups = {}    #按组组织数据点
-        self.target_from_name = {} #存储数据点名称与StatePoint之间的映射关系
-
-        with open(csvfile) as f: # 使用上下文管理器打开CSV文件，确保文件正确关闭
-            for i in csv.DictReader(f): # 使用csv.DictReader逐行读取CSV文件，每行数据自动转换为字典形式，key为CSV的列头
-                if i['name'] in self.nodes: # 检查当前行的节点名称是否已存在于已有的节点字典中
-                    raise Exception(f"S7配置文件节点名称重复：{i['name']}") # 如果节点名称重复，抛出异常，提示重复的节点名称
+        self.thread_run = False
+        self.threads = []
+        self.nodes = {}
+        self.node_data = {}
+        self.groups = {}
+        self.target_from_name = {}
+        with open(csvfile) as f:
+            for i in csv.DictReader(f):
+                if i['name'] in self.nodes:
+                    raise Exception(f"S7配置文件节点名称重复：{i['name']}")
                 else:
-                    self.nodes[i['name']] = i # nodes（K->行name V->本行数据）
-                    self.node_data[i['name']] = bytearray(int(i['size']))#（key->行name V—>按size创建的bytearray（用来存放PLC中取出的字节））
-                    if i['group'] not in self.groups: 
-                        self.groups[i['group']] = [] #如果还没有该组，创建新组
-                    self.groups[i['group']].append(i['name']) #将当前行name添加进对应的组
+                    self.nodes[i['name']] = i
+                    self.node_data[i['name']] = bytearray(int(i['size']))
+                    if i['group'] not in self.groups:
+                        self.groups[i['group']] = []
+                    self.groups[i['group']].append(i['name'])
 
     def set_logger(self, logger):
         self.logger = logger
@@ -88,7 +62,6 @@ class S7data:
         return self.S7Client
     
     def get_value(self, name):
-        """从node_data中取出数据，按照type字段的类型解析，返回有意义的数据"""
         if len(name) > 3 and name[-3] == '[' and name[-1] == ']' and name[-2].isdigit() and 0 <= int(name[-2]) < 8:
             index = int(name[-2])
             name = name[:-3]
@@ -116,9 +89,8 @@ class S7data:
         return data
 
     def send(self, name):
-        """数据变化时，调用StatePoint.inject(data)"""
         if self.nodes[name]['type'] == 'int':
-            data = snap7.util.get_int(self.node_data[name], 0)  
+            data = snap7.util.get_int(self.node_data[name], 0)
         elif self.nodes[name]['type'] == 'dint':
             data = snap7.util.get_dint(self.node_data[name], 0)
         elif self.nodes[name]['type'] == 'bool':
@@ -131,10 +103,6 @@ class S7data:
             data = self.node_data[name][2:2+int.from_bytes(self.node_data[name][1:2])].decode('gbk', errors='replace')
         elif self.nodes[name]['type'] == 'wstring':
             data = self.node_data[name][4:].decode(encoding='utf-16be', errors='replace')
-        elif self.nodes[name]['type'] == 'int_list':
-            data = []
-            for i in range(0, int(self.nodes[name]['size']), 2):
-                data.append(snap7.util.get_int(self.node_data[name], i))
         else:
             warnings.warn('暂不支持的类型：' + self.nodes[name]['type'])
             if self.logger:
@@ -150,7 +118,6 @@ class S7data:
                     j.inject(data[i])
 
     def update(self, name):
-        """数据发生变化则覆盖旧数据并注入对应的StatePoint"""
         nodeinfo = self.nodes[name]
         try:
             while True:
@@ -167,8 +134,8 @@ class S7data:
                 tmp = self.S7Client.db_read(int(nodeinfo['db']), int(nodeinfo['start']), int(nodeinfo['size']))
                 self.lock.release()
                 if self.node_data[name] != tmp:
-                    self.node_data[name] = tmp#如果数据发生变化，覆盖旧数据
-                    self.send(name)#注入各数据点对应的StatePoint
+                    self.node_data[name] = tmp
+                    self.send(name)
                 time.sleep(float(nodeinfo['frequency']) / 1000)
         except RuntimeError as reason:
             warnings.warn(reason)
@@ -178,7 +145,6 @@ class S7data:
             self.lock.release()
 
     def start_auto_update(self):
-        """启动自动更新所有允许读取的PLC节点的线程"""
         if self.thread_run:
             return None
         self.threads = []
@@ -200,15 +166,13 @@ class S7data:
             i.start()
 
     def update_group(self, group_name):
-        nodesname = self.groups[group_name]#获取该组下所有数据点name
+        nodesname = self.groups[group_name]
         db_number = []
         start = []
         size = []
 
-        #遍历组内数据点
         for name in nodesname:
-            nodeinfo = self.nodes[name]#获取代表行的字典
-            #获取db_number start size三个字段
+            nodeinfo = self.nodes[name]
             db_number.append(int(nodeinfo['db']))
             start.append(int(nodeinfo['start']))
             size.append(int(nodeinfo['size']))
@@ -228,7 +192,7 @@ class S7data:
                     return None
 
                 try:
-                    tmp = self.S7Client.multi_db_read_py(db_number, start, size)#一组的内容一把读完
+                    tmp = self.S7Client.multi_db_read_py(db_number, start, size)
                 except RuntimeError as reason:
                     warnings.warn(reason)
                     read_valid = False
@@ -243,7 +207,6 @@ class S7data:
                         self.send(nodesname[i])
 
     def auto_update_group(self):
-        """使用多线程自动更新所有设备组的数据"""
         if self.thread_run:
             return None
         self.threads = []
@@ -271,20 +234,7 @@ class S7data:
             i.join()
 
     def make_point(self, name, point_type = Statepoint):
-        """
-        创建并返回一个 point_type 类型的点对象，并根据 name 将其存储到 target_from_name 字典中。
-        
-        Args:
-            name (str): 点的名称。如果名称长度大于3且符合特定模式（如"name[index]"），则会被解析并可能创建多维存储结构。
-            point_type (Type[T], optional): 要创建的点的类型，默认为 Statepoint。 
-        
-        Returns:
-            T: 新创建的 point_type 类型的实例。
-        
-        Raises:
-            ValueError: 如果 name 不在 self.nodes 中，则抛出此异常。
-        """
-        index = -1  
+        index = -1
         solvedname = name
         if len(name) > 3 and name[-3] == '[' and name[-1] == ']' and name[-2].isdigit() and 0 <= int(name[-2]) < 8:
             index = int(name[-2])

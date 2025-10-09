@@ -45,7 +45,7 @@ class billet_data_gatherer:
         self.logger.debug(f"{self.strand_no}流开始切割")
 
         time.sleep(30)#确保数据采集完整
-        dspeed_buffer: deque = self.dspeed_point.get_buffer()
+        dspeed_buffer: deque = self.dspeed_point.get_buffer()#获得拉速队列
         flow_rate_buffer_list: list[deque] = [self.flow_rate_point_list[i].get_buffer() for i in range(5)]
 
         if len(dspeed_buffer) < 10:

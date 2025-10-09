@@ -48,7 +48,7 @@ class S7Client(snap7.client.Client):
                 wait_time = min(wait_time*2,max_wait)
                 attempt+=1
     
-    def read_multi_dbs(self, db_number: list, start: list, size: list):
+    def multi_db_read_py(self, db_number: list, start: list, size: list):
         """从多个DB块的不同地址区域读取数据
         params:
         db_number->要读取的DB块编号list
