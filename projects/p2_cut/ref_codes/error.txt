@@ -1,0 +1,210 @@
+2025-10-11 10:31:19,086 - DataBridge - DEBUG - 	切割时间：2025-10-11 10:30:48
+2025-10-11 10:31:19,086 - DataBridge - DEBUG - 	进入时间：2025-10-11 10:29:31
+2025-10-11 10:31:19,086 - DataBridge - DEBUG - 	离开时间：2025-10-11 10:31:18
+2025-10-11 10:31:19,087 - DataBridge - DEBUG - 	水量总计：2763.7605388087118
+2025-10-11 10:31:19,087 - DataBridge - DEBUG - 	平均拉速：0.2215400151548919
+\
+
+2025-10-11 10:31:19,082 - steel_fit - DEBUG - 2流钢坯计算结果：
+2025-10-11 10:31:19,084 - steel_fit - DEBUG - 	切割时间：2025-10-11 10:30:48
+2025-10-11 10:31:19,087 - steel_fit - DEBUG - 	进入时间：2025-10-11 10:17:56
+2025-10-11 10:31:19,089 - steel_fit - DEBUG - 	离开时间：2025-10-11 10:25:39
+2025-10-11 10:31:19,091 - steel_fit - DEBUG - 	水量总计：29.39151630052728
+2025-10-11 10:31:19,094 - steel_fit - DEBUG - 	平均拉速：3.0722069949
+
+2025-10-11 10:45:53,209 - DataBridge - DEBUG - deque([(0.0, 1760150617.385872), (3.209982395172119, 1760150617.451663), (3.2047245502471924, 1760150626.76396), (3.2310144901275635, 1760150639.719706), (3.215442657470703, 1760150652.730047), (3.2298009395599365, 1760150665.843606), (3.2087693214416504, 1760150691.798768), (3.230609655380249, 1760150704.8293), (3.19724178314209, 1760150717.917518), (3.114328145980835, 1760150730.821523), (2.6619412899017334, 1760150743.845386), (2.6619412899017334, 1760150753.2106578)], maxlen=3000)
+2025-10-11 10:45:53,469 - DataBridge - DEBUG - 2流钢坯计算结果：
+2025-10-11 10:45:53,469 - DataBridge - DEBUG -  切割时间：2025-10-11 10:45:23
+2025-10-11 10:45:53,470 - DataBridge - DEBUG -  进入时间：2025-10-11 10:43:37
+2025-10-11 10:45:53,470 - DataBridge - DEBUG -  离开时间：2025-10-11 10:45:53
+2025-10-11 10:45:53,471 - DataBridge - DEBUG -  水量总计：2801.1485907531537
+2025-10-11 10:45:53,471 - DataBridge - DEBUG -  平均拉速：0.1744895083723013
+
+问题应该出在：拉速队列的最早时间不足以计算出t0
+
+2025-10-11 11:03:31,218 - DataBridge - DEBUG - deque([(0.0, 1760151700.296846), (3.116956949234009, 1760151700.340554), (3.2198917865753174, 1760151707.333811), (3.238901138305664, 1760151720.276227), (3.068624258041382, 1760151733.379397), (3.168120861053467, 1760151746.357296), (3.218071699142456, 1760151759.43539), (3.3505313396453857, 1760151772.314876), (3.089858293533325, 1760151785.340564), (3.1028010845184326, 1760151798.424053), (3.1028010845184326, 1760151811.219357)], maxlen=3000)
+2025-10-11 11:03:31,471 - DataBridge - DEBUG - 1流钢坯计算结果：
+2025-10-11 11:03:31,471 - DataBridge - DEBUG - 	切割时间：2025-10-11 11:03:31
+2025-10-11 11:03:31,472 - DataBridge - DEBUG - 	进入时间：2025-10-11 11:01:40
+2025-10-11 11:03:31,472 - DataBridge - DEBUG - 	离开时间：2025-10-11 11:03:31
+2025-10-11 11:03:31,472 - DataBridge - DEBUG - 	水量总计：1.378455575655615
+2025-10-11 11:03:31,472 - DataBridge - DEBUG - 	平均拉速：0.2136626728747064
+2025-10-11 11:03:43,358 - DataBridge - DEBUG - 3流开始切割
+2025-10-11 11:03:43,359 - DataBridge - DEBUG - deque([(0.0, 1760151700.296846), (2.9317150115966797, 1760151700.340554), (2.9482977390289307, 1760151707.333811), (2.9300973415374756, 1760151720.276227), (2.9545671939849854, 1760151733.379397), (2.9214015007019043, 1760151746.357296), (2.9424331188201904, 1760151759.43539), (2.8938980102539062, 1760151772.314876), (2.9551737308502197, 1760151785.340564), (2.981463670730591, 1760151798.424053), (2.9341418743133545, 1760151811.414671), (2.9341418743133545, 1760151823.359475)], maxlen=3000)
+2025-10-11 11:03:43,608 - DataBridge - DEBUG - 3流钢坯计算结果：
+2025-10-11 11:03:43,608 - DataBridge - DEBUG - 	切割时间：2025-10-11 11:03:43
+2025-10-11 11:03:43,609 - DataBridge - DEBUG - 	进入时间：2025-10-11 11:01:40
+2025-10-11 11:03:43,609 - DataBridge - DEBUG - 	离开时间：2025-10-11 11:03:43
+2025-10-11 11:03:43,609 - DataBridge - DEBUG - 	水量总计：3441.8156729836946
+2025-10-11 11:03:43,610 - DataBridge - DEBUG - 	平均拉速：0.19258486782971196
+2025-10-11 11:04:01,645 - DataBridge - DEBUG - 7流开始切割
+2025-10-11 11:04:01,645 - DataBridge - DEBUG - deque([(0.0, 1760151700.296846), (3.019280195236206, 1760151700.340554), (2.992990732192993, 1760151707.333811), (3.0445590019226074, 1760151720.276227), (3.0279760360717773, 1760151733.379397), (3.0419301986694336, 1760151746.357296), (3.071455478668213, 1760151759.43539), (3.034447193145752, 1760151772.314876), (3.0200891494750977, 1760151785.340564), (3.0318188667297363, 1760151798.424053), (3.01200008392334, 1760151811.414671), (3.1232261657714844, 1760151824.419582), (3.0257515907287598, 1760151837.422624), (3.0257515907287598, 1760151841.646304)], maxlen=3000)
+2025-10-11 11:04:01,913 - DataBridge - DEBUG - 7流钢坯计算结果：
+2025-10-11 11:04:01,913 - DataBridge - DEBUG - 	切割时间：2025-10-11 11:04:01
+2025-10-11 11:04:01,914 - DataBridge - DEBUG - 	进入时间：2025-10-11 11:01:40
+2025-10-11 11:04:01,915 - DataBridge - DEBUG - 	离开时间：2025-10-11 11:04:01
+2025-10-11 11:04:01,915 - DataBridge - DEBUG - 	水量总计：2093.2018120230387
+2025-10-11 11:04:01,915 - DataBridge - DEBUG - 	平均拉速：0.1675988041168271
+2025-10-11 11:04:48,445 - DataBridge - DEBUG - 8流开始切割
+2025-10-11 11:04:48,445 - DataBridge - DEBUG - deque([(0.0, 1760151700.296846), (2.3802366256713867, 1760151700.340554), (2.3800342082977295, 1760151707.333811), (2.3838765621185303, 1760151720.276227), (2.394392490386963, 1760151733.379397), (2.3929765224456787, 1760151746.357296), (2.3830678462982178, 1760151759.43539), (2.388932466506958, 1760151772.314876), (2.380640983581543, 1760151785.340564), (2.379225254058838, 1760151798.424053), (2.378011703491211, 1760151811.414671), (2.3966166973114014, 1760151824.419582), (2.383472204208374, 1760151837.422624), (2.373764991760254, 1760151850.474407), (2.377607583999634, 1760151863.471017), (2.393381357192993, 1760151876.505049), (2.393381357192993, 1760151888.4463398)], maxlen=3000)
+2025-10-11 11:04:48,777 - DataBridge - DEBUG - 8流钢坯计算结果：
+2025-10-11 11:04:48,777 - DataBridge - DEBUG - 	切割时间：2025-10-11 11:04:48
+2025-10-11 11:04:48,778 - DataBridge - DEBUG - 	进入时间：2025-10-11 11:01:40
+2025-10-11 11:04:48,778 - DataBridge - DEBUG - 	离开时间：2025-10-11 11:04:48
+2025-10-11 11:04:48,778 - DataBridge - DEBUG - 	水量总计：25.473699234774095
+2025-10-11 11:04:48,779 - DataBridge - DEBUG - 	平均拉速：0.1259105171897458
+
+
+
+2025-10-11 14:34:52,902 - DataBridge - DEBUG - 3流开始切割
+2025-10-11 14:34:52,902 - DataBridge - DEBUG - deque([(0.0, 1760164442.466281), (2.8419253826141357, 1760164442.505106), (2.870035409927368, 1760164452.448205), (2.856485605239868, 1760164465.478313), (2.843139171600342, 1760164478.530635), (2.810579776763916, 1760164491.559606), (2.810579776763916, 1760164492.9039629)], maxlen=3000)
+
+
+Message: array([1.76016486e+09, 1.76016486e+09, 1.76016487e+09, 1.76016488e+09,
+       1.76016490e+09, 1.76016491e+09, 1.76016492e+09, 1.76016493e+09,
+       1.76016495e+09, 1.76016496e+09, 1.76016497e+09, 1.76016499e+09])
+Arguments: (array([0.        , 0.05037864, 0.05058424, 0.05021011, 0.05028089,
+       0.05010226, 0.05013597, 0.05021011, 0.05030449, 0.05002137,
+       0.05057749, 0.05057749]),)
+
+
+       File "C:\Users\Administrator\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1030, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\test\p2_cut\utils\StatePoint.py", line 46, in __update_state
+    self.excite()
+  File "D:\test\p2_cut\utils\StatePoint.py", line 35, in excite
+    self.do_excite()
+  File "D:\test\p2_cut\DataBridge.py", line 102, in cutting_action
+    t0=self.calc.calc_t0(cutting_time,length,pull_speed,v_t_func)
+  File "D:\test\p2_cut\utils\Calculator.py", line 35, in calc_t0
+    self.logger.debug(t_low,t_high)
+Message: np.float64(1760165606.498232)
+Arguments: (np.float64(1760166057.032335),)
+2025-10-11 15:00:57,505 - DataBridge - DEBUG - 2流钢坯计算结果：
+2025-10-11 15:00:57,506 - DataBridge - DEBUG -  切割时间：2025-10-11 15:00:27
+2025-10-11 15:00:57,506 - DataBridge - DEBUG -  进入时间：2025-10-11 14:53:26
+2025-10-11 15:00:57,507 - DataBridge - DEBUG -  离开时间：2025-10-11 15:00:57
+2025-10-11 15:00:57,507 - DataBridge - DEBUG -  水量总计：63369.95444205493
+2025-10-11 15:00:57,507 - DataBridge - DEBUG -  平均拉速：0.052604231004161436
+2025-10-11 15:01:51,014 - DataBridge - DEBUG - 3流开始切割
+b'CLI : Cannot change this param now'
+Traceback (most recent call last):
+  File "D:\test\p2_cut\DataHandler.py", line 58, in <module>
+    dh.start()
+  File "D:\test\p2_cut\DataHandler.py", line 28, in start
+    self.plc.connect()
+  File "D:\test\p2_cut\PlcConnector.py", line 35, in connect
+    self.client1.connect("172.16.1.20",0,1)
+  File "D:\test\p2_cut\utils\s7util.py", line 42, in connect
+    return super().connect(address,rack,slot,tcp_port)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python312\Lib\site-packages\snap7\client.py", line 196, in connect
+    self.set_param(parameter=Parameter.RemotePort, value=tcp_port)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python312\Lib\site-packages\snap7\error.py", line 121, in inner
+    check_error(code, context=context)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python312\Lib\site-packages\snap7\error.py", line 143, in check_error
+    raise RuntimeError(error)
+RuntimeError: b'CLI : Cannot change this param now'
+
+
+2025-10-11 18:01:35,375 - __main__ - ERROR - 主循环异常:
+Traceback (most recent call last):
+  File "D:\test\p2_cut\DataHandler.py", line 43, in _loop
+    self._process_once()
+  File "D:\test\p2_cut\DataHandler.py", line 37, in _process_once
+    self.bridge.data_storage()
+  File "D:\test\p2_cut\DataBridge.py", line 49, in data_storage
+    task_tuple=self.task_queue.get(True,1)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python312\Lib\queue.py", line 179, in get
+    raise Empty
+_queue.Empty
+
+
+
+                     ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python312\Lib\logging\__init__.py", line 392, in getMessage
+    msg = msg % self.args
+          ~~~~^~~~~~~~~~~
+TypeError: not all arguments converted during string formatting
+Call stack:
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1030, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\test\p2_cut\utils\StatePoint.py", line 46, in __update_state
+    self.excite()
+  File "D:\test\p2_cut\utils\StatePoint.py", line 35, in excite
+    self.do_excite()
+  File "D:\test\p2_cut\DataBridge.py", line 102, in cutting_action
+    v_t_func=self.calc.make_v_t_func(pull_speed)
+  File "D:\test\p2_cut\utils\Calculator.py", line 22, in make_v_t_func
+    self.logger.debug(t_arr,v_arr)
+Message: array([1.76017747e+09, 1.76017747e+09, 1.76017748e+09, 1.76017750e+09,
+       1.76017751e+09, 1.76017752e+09, 1.76017754e+09, 1.76017755e+09,
+       1.76017756e+09, 1.76017757e+09, 1.76017759e+09, 1.76017760e+09,
+       1.76017761e+09, 1.76017763e+09])
+Arguments: (array([0.        , 0.04079635, 0.04087724, 0.04066153, 0.04120755,
+       0.04107273, 0.04111317, 0.04777662, 0.0518448 , 0.05031797,
+       0.04998091, 0.04954275, 0.0497888 , 0.0497888 ]),)
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python312\Lib\logging\__init__.py", line 1160, in emit
+    msg = self.format(record)
+          ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python312\Lib\logging\__init__.py", line 999, in format
+    return fmt.format(record)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python312\Lib\logging\__init__.py", line 703, in format
+    record.message = record.getMessage()
+                     ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python312\Lib\logging\__init__.py", line 392, in getMessage
+    msg = msg % self.args
+          ~~~~^~~~~~~~~~~
+TypeError: not all arguments converted during string formatting
+Call stack:
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1030, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\test\p2_cut\utils\StatePoint.py", line 46, in __update_state
+    self.excite()
+  File "D:\test\p2_cut\utils\StatePoint.py", line 35, in excite
+    self.do_excite()
+  File "D:\test\p2_cut\DataBridge.py", line 102, in cutting_action
+    v_t_func=self.calc.make_v_t_func(pull_speed)
+  File "D:\test\p2_cut\utils\Calculator.py", line 22, in make_v_t_func
+    self.logger.debug(t_arr,v_arr)
+Message: array([1.76017747e+09, 1.76017747e+09, 1.76017748e+09, 1.76017750e+09,
+       1.76017751e+09, 1.76017752e+09, 1.76017754e+09, 1.76017755e+09,
+       1.76017756e+09, 1.76017757e+09, 1.76017759e+09, 1.76017760e+09,
+       1.76017761e+09, 1.76017763e+09])
+Arguments: (array([0.        , 0.04079635, 0.04087724, 0.04066153, 0.04120755,
+       0.04107273, 0.04111317, 0.04777662, 0.0518448 , 0.05031797,
+       0.04998091, 0.04954275, 0.0497888 , 0.0497888 ]),)
+Exception in thread Thread-32 (__update_state):
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\test\p2_cut\utils\StatePoint.py", line 46, in __update_state
+    self.excite()
+  File "D:\test\p2_cut\utils\StatePoint.py", line 35, in excite
+    self.do_excite()
+  File "D:\test\p2_cut\DataBridge.py", line 105, in cutting_action
+    sampled_times = np.linspace(t0, t2, 5)
+                                ^^
+UnboundLocalError: cannot access local variable 't0' where it is not associated with a value
+
+
+2025-10-11 18:25:01,417 - DataBridge - DEBUG - 拉速拟合采样: times=[1.76017818e+09 1.76017821e+09 1.76017824e+09 1.76017827e+09
+ 1.76017830e+09], speeds=[array(4.58318839e-07), array(-0.0090624), array(0.04271796), array(0.05072698), array(0.05119766)]

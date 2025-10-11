@@ -12,20 +12,37 @@ class Calculator:
         self.logger.screen_on() 
         self.logger.file_on()
 
-    def make_v_t_func(self,pull_speed_queue:deque):
-        speed_time_list=list(pull_speed_queue)
-        if len(speed_time_list)<4:
-            raise ValueError("数据过少无法插值")
+    def make_v_t_func(self, pull_speed_queue: deque):
+    # 1. 数据预处理：过滤无效点
+        speed_time_list = [
+            (v, t) for v, t in pull_speed_queue 
+            if v > 0  # 拉速必须为正
+        ]
+        if len(speed_time_list) < 4:
+            raise ValueError("有效数据不足（需≥4个正拉速点）")
+        
+        # 2. 提取数据并转换单位（m/min -> m/s）
         speeds, times = zip(*speed_time_list)
         t_arr = np.array(times)
         v_arr = np.array(speeds) / 60.0
-        return CubicSpline(t_arr, v_arr, bc_type='natural'), t_arr   
+        
+        # 3. 创建插值函数（自然边界条件）
+        cs = CubicSpline(t_arr, v_arr, bc_type='natural')
+        
+        # 4. 包装为返回标量的安全函数
+        def v_t_func(t):
+            t_min, t_max = t_arr.min(), t_arr.max()
+            if t < t_min or t > t_max:
+                return 0.0  # 超出范围返回0（或抛异常）
+            return float(cs(t))
+        
+        return v_t_func
     
-    def calc_t0(self, cut_signal_ts:float, length:float, pull_speed_queue:deque):
-        total = 28.0 + length * 0.001
+    def calc_t0(self, cut_signal_ts:float, length:float, pull_speed_queue:deque,v_tfunc):
+        total = 28.0 + length
         t1 = cut_signal_ts
-        #得到vt函数和时间数组
-        v_tfunc, time_array = self._make_v_t_func(pull_speed_queue)
+        #得到时间数组
+        _,time_array=zip(*pull_speed_queue)
 
         def cal_len(t0):
             return quad(v_tfunc, t0, t1)[0]
@@ -47,8 +64,8 @@ class Calculator:
         t0 = (t_low + t_high) / 2
         return t0 
         
-    def calc_t2(self, t0:float, pull_speed_queue:deque, length:float):
-        v_tfunc, time_array = self._make_v_t_func(pull_speed_queue)
+    def calc_t2(self, t0:float, pull_speed_queue:deque, length:float,v_tfunc):
+        _,time_array=zip(*pull_speed_queue)
         def distance_func(t):
             return quad(v_tfunc, t0, t)[0]
         t_low = float(t0)
@@ -56,7 +73,7 @@ class Calculator:
         if t_low >= t_high:
             return t_high
         tol = 1e-6
-        target = 12.0 + length * 0.001
+        target = 12.0 + length
         while abs(t_high - t_low) > tol:
             t_mid = (t_low + t_high) / 2
             cur = distance_func(t_mid)
@@ -66,49 +83,37 @@ class Calculator:
                 t_high = t_mid
         return (t_low + t_high) / 2
 
-    def calc_total_water_and_avg_params(self, start_time:float, end_time:float, stream_queue:deque, other_queue:deque):
-        # 计算总水量
-        time_list = []
-        flow_list = []
-        #stream_queuez中的元素eg->[{"segment": 1, "value": (117.123, 172123213121.12)}]
-        for stream_values in stream_queue:
-            if not stream_values:
-                continue
-            flow_rate = sum(s.get('value')[0] for s in stream_values)#计算各段流量和
-            ts = stream_values[0].get('value')[1]#获取时间戳
-            time_list.append(ts)
-            flow_list.append(flow_rate)
-        if len(time_list) < 2:
-            self.logger.warning('流队列数据不足，无法计算水量')
-            total_water = 0.0
-            avg_flow_rate = 0.0
-        else:
-            x = np.array(time_list)
-            y = np.array(flow_list) / 3600.0  # 转为 m^3/s
-            flow_t_func = CubicSpline(x, y)
-            total_water = quad(flow_t_func, start_time, end_time)[0]#得到 前12m 5段水流量综合
+    def calc_total_flow(self,t0,t2,flow_buffer_list:list[deque]):
+        res=[]
+        for dequei in flow_buffer_list:
+            data_tuple,time_tuple = zip(*dequei)
+            x=np.array(time_tuple)
+            y=np.array(data_tuple)/3600 #m³/s
+            
+            vt_func= CubicSpline(x,y)
+            total=quad(vt_func,t0,t2)[0]
+            res.append(total)
+        return sum(res)
 
-        # 计算6个参数平均值
-        param_names = [
-            '结晶器流量', '结晶器水温差', '二冷水总管压力',
-            '结晶器进水温度', '结晶器水压', '二冷水总管温度'
-        ]
-        #other_queue中的内容：纯字典，key是name value是对应的数值
-        valid = [d for d in other_queue if start_time <= d.get('timestamp', 0) <= end_time]
-        if not valid:
-            self.logger.warning('在时间范围内没有参数数据')
-            avg_params = {name:0.0 for name in param_names}
-        else:
-            sums = {name:0.0 for name in param_names}
-            for d in valid:
-                for name in param_names:
-                    sums[name] += d.get(name, 0.0)#对每个name，累加有效数据中的值
-            avg_params = {name: sums[name]/len(valid) for name in param_names}#总和/有效数据条数 {name:平均值}
-        #计算二冷水水压标准差
+    def calc_other_data(self,entry_time,exit_time,ot,p,bt,wtd):
 
+        wt = self.interval_avg(self.ot.get_buffer(), entry_time, exit_time)
+        wp = self.interval_avg(self.p.get_buffer(), entry_time, exit_time)
+        wps = self.interval_sd(self.p.get_buffer(), entry_time, exit_time)
+        st = self.interval_avg(self.bt.get_buffer(), entry_time, exit_time)
+        wtd = self.interval_avg(self.wtd.get_buffer(), entry_time, exit_time)
 
-        return total_water, avg_params
+        return wt,wp,wps,st,wtd
+    
+    def interval_avg(self, buffer, left, right):
+        data_tuple, time_tuple = zip(*buffer)
+        x = np.array(time_tuple)
+        y = np.array(data_tuple)
+        func = interpolate.interp1d(x, y, kind = "cubic")
+        inte = integrate.quad(func, left, right)[0]
 
+        return inte / (right - left)
+    
     def interval_sd(self, buffer, left, right):
         data_tuple, time_tuple = zip(*buffer)
         x = np.array(time_tuple)
@@ -122,3 +127,40 @@ class Calculator:
         avg2 = inte2 / (right - left)
 
         return avg2 ** 0.5
+    def _binary_search_start(self, func, upper_limit, target):
+        """二分查找计算钢坯进入关键区域时间
+        func：速度-时间插值函数
+        upper_limit：切割时间戳（搜索范围上限）
+
+        """
+        left = func.x.min()
+        right = func.x.max()
+
+        if self._get_distance(func, left, upper_limit) < target:
+            return
+
+        while abs(right - left) > 0.01:
+            mid = (left + right) / 2
+            if self._get_distance(func, mid, upper_limit) >= target:
+                left = mid
+            else:
+                right = mid
+        
+        return (left + right) / 2
+    
+    def _binary_search_end(self, func, lower_limit, target):
+        left = func.x.min()
+        right = func.x.max()
+
+        while abs(right - left) > 0.01:
+            mid = (left + right) / 2
+            if self._get_distance(func, lower_limit, mid) >= target:
+                right = mid
+            else:
+                left = mid
+        
+        return (left + right) / 2
+
+    def _get_distance(self, vt_func, lower, upper):
+        """通过积分计算移动距离"""
+        return integrate.quad(vt_func, lower, upper)[0]

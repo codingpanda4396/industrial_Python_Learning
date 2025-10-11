@@ -1,5 +1,5 @@
 import snap7, csv, threading, warnings, time, ctypes
-from utils.statepoint import *
+from utils.StatePoint import *
 
 class TS7DataItem(ctypes.Structure):
     _fields_ = [
