@@ -18,14 +18,7 @@ class PlcConnector:
         self.client1=su.S7Client()
         self.client2=su.S7Client()
         self.client3=su.S7Client()
-        #根据csv配置加载数据点
-        self.s7_20=sd.S7data("conf/s7@172.16.1.20.csv")
-        self.s7_215=sd.S7data("conf/s7@192.168.1.215.csv")
-        self.s7_21=sd.S7data("conf/s7@172.16.1.21.csv")
-        #工具类中放入客户端
-        self.s7_20.set_S7Client(self.client1)
-        self.s7_215.set_S7Client(self.client2)
-        self.s7_21.set_S7Client(self.client3)
+
 
         
         self._read_lock=threading.Lock()
@@ -35,6 +28,16 @@ class PlcConnector:
         self.client1.connect("172.16.1.20",0,1)
         self.client2.connect("192.168.1.215",0,1)
         self.client3.connect("172.16.1.21",0,1)
+
+         #根据csv配置加载数据点
+        self.s7_20=sd.S7data("conf/s7@172.16.1.20.csv")
+        self.s7_215=sd.S7data("conf/s7@192.168.1.215.csv")
+        self.s7_21=sd.S7data("conf/s7@172.16.1.21.csv")
+        #工具类中放入客户端
+        self.s7_20.set_S7Client(self.client1)
+        self.s7_215.set_S7Client(self.client2)
+        self.s7_21.set_S7Client(self.client3)
+        
         self.s7_20.auto_update_group()
         self.s7_215.auto_update_group()
         self.s7_21.auto_update_group()
@@ -42,8 +45,8 @@ class PlcConnector:
         self.logger.debug("启动分组自动更新")
         
 
-    def start_data_acquisition(self):
-        """开始数据自动获取"""
+    def generate_points(self):
+        """生成所需要的数据点"""
         pull_speed_buffer=[self.s7_20.make_point(f"{i}流结晶器拉速",BufferPoint) for i in range(1,9)]
         length_points=[self.s7_20.make_point(f"{i}流定尺") for i in range(1,9)]
         cutting_sig_points = [self.s7_215.make_point(f"L{i}切割信号[0]") for i in range(1, 9)]

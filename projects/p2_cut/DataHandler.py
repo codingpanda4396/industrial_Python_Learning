@@ -15,7 +15,7 @@ class DataHandler:
         self.plc = PlcConnector.PlcConnector()
         #连接并启动自动数据更新
         self.plc.connect()
-        data:tuple=self.plc.start_data_acquisition()
+        data:tuple=self.plc.generate_points()
         self.bridge= DataBridge.DataBridge(*data)
         self.stop_event = threading.Event()
         self.thread = None

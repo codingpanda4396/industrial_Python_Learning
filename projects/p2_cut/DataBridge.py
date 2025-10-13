@@ -70,10 +70,13 @@ class DataBridge:
             stell_temp=other_data_tuple[3]
             water_temperature_diff=other_data_tuple[4]
 
-            
+            self.logger.debug("开始存储数据")
             self.persistence.save_flow_event(flow_no,cutting_time,t0,t2,water_temperature,water_pressure,total_flow,water_pressure_sd,stell_temp,avg_pull_speed,water_temperature_diff)
+            self.logger.debug("数据存储完成")
+        except queue.Empty:
+                pass
         except Exception as e:
-            self.logger.debug(e.with_traceback())
+                self.logger.error(f"铸机数据计算过程中出现意外:{e}")
 class SingleFlowData:
     """代表一个流的相关数据
     """
@@ -129,6 +132,7 @@ class SingleFlowData:
         self.logger.debug(f'\t水量总计：{water_total}')
         self.logger.debug(f'\t平均拉速：{dspeed_avg}')
         self.task_queue.put((self.flow_no,float(cutting_time), float(entry_time), float(exit_time), float(water_total), float(dspeed_avg)))
+        self.logger.debug(f'已经放入队列，队列内容：{self.task_queue}')
 
 
 

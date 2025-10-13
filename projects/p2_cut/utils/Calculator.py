@@ -95,19 +95,22 @@ class Calculator:
             data_tuple,time_tuple = zip(*dequei)
             x=np.array(time_tuple)
             y=np.array(data_tuple)/3600 #m³/s
-            
-            vt_func= CubicSpline(x,y)
+            if len(x) < 4:
+                avg = np.mean(y)
+                vt_func = lambda xx: avg
+            else:
+                vt_func = interpolate.interp1d(x, y, kind='cubic')
             total=quad(vt_func,t0,t2)[0]
             res.append(total)
         return sum(res)
 
     def calc_other_data(self,entry_time,exit_time,ot,p,bt,wtd):
 
-        wt = self.interval_avg(self.ot.get_buffer(), entry_time, exit_time)
-        wp = self.interval_avg(self.p.get_buffer(), entry_time, exit_time)
-        wps = self.interval_sd(self.p.get_buffer(), entry_time, exit_time)
-        st = self.interval_avg(self.bt.get_buffer(), entry_time, exit_time)
-        wtd = self.interval_avg(self.wtd.get_buffer(), entry_time, exit_time)
+        wt = self.interval_avg(ot.get_buffer(), entry_time, exit_time)
+        wp = self.interval_avg(p.get_buffer(), entry_time, exit_time)
+        wps = self.interval_sd(p.get_buffer(), entry_time, exit_time)
+        st = self.interval_avg(bt.get_buffer(), entry_time, exit_time)
+        wtd = self.interval_avg(wtd.get_buffer(), entry_time, exit_time)
 
         return wt,wp,wps,st,wtd
     
