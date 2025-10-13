@@ -16,7 +16,6 @@ class DataHandler:
         #连接并启动自动数据更新
         self.plc.connect()
         data:tuple=self.plc.start_data_acquisition()
-
         self.bridge= DataBridge.DataBridge(*data)
         self.stop_event = threading.Event()
         self.thread = None
@@ -25,7 +24,6 @@ class DataHandler:
         self.stop_event.clear()
         self.thread = threading.Thread(target=self._loop, daemon=True)
         self.thread.start()
-        self.logger.info('数据采集线程启动')
 
     def stop(self):
         self.stop_event.set()

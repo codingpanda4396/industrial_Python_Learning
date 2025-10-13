@@ -35,7 +35,12 @@ class PlcConnector:
         self.client1.connect("172.16.1.20",0,1)
         self.client2.connect("192.168.1.215",0,1)
         self.client3.connect("172.16.1.21",0,1)
+        self.s7_20.auto_update_group()
+        self.s7_215.auto_update_group()
+        self.s7_21.auto_update_group()
         self.logger.info("PLC clients connected")
+        self.logger.debug("启动分组自动更新")
+        
 
     def start_data_acquisition(self):
         """开始数据自动获取"""
@@ -48,8 +53,8 @@ class PlcConnector:
         billet_temperature=self.s7_20.make_point("中间包连续测温温度",BufferPoint)
         water_temperature_diff=self.s7_21.make_point("5#结晶器水温差",BufferPoint)
         
-        self.s7_20.auto_update_group()
-        self.s7_215.auto_update_group()
-        self.s7_21.auto_update_group()
+       
+        
+        
         #返回数据tuple
         return pull_speed_buffer,length_points,cutting_sig_points,water_discharge_buffer,overall_temperature,pressure,billet_temperature,water_temperature_diff

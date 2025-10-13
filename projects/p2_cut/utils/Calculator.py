@@ -46,11 +46,17 @@ class Calculator:
 
         def cal_len(t0):
             return quad(v_tfunc, t0, t1)[0]
+            
 
+        
         t_low = float(time_array[0])
         t_high = float(t1)
         if t_low >= t_high:
             return t_low
+        
+        if cal_len(t_low)<total:
+            self.logger.debug(f"{t_low}  {cal_len(t_low)}")
+            return 
 
         # 二分查找
         tol = 1e-6
