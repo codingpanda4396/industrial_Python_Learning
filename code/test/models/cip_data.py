@@ -5,16 +5,15 @@ from threading import Thread
 import time
 
 class CIPData:
-    """实时采集、分发PLC数据，多线程读取设备状态并支持数据变化监听"""
     __sentinel = object()
 
     def __init__(self, ip = ''):
         self.tags2name = {
             "GB_PEISHUI": [f"5#水流量-{i}流-{j}段" for i in range(1, 9) for j in range(1, 6)],
             "GB_PEISHUI[58]": ['5#结晶器流量', '5#结晶器水温差', '5#二冷水总管压力', '5#结晶器进水温度', '5#结晶器水压', '5#二冷水总管温度']
-        }
+        }#PLC标签 : 有意义的名称
 
-        self.name2value = {j: 0 for i in self.tags2name.values() for j in i}
+        self.name2value = {j: 0 for i in self.tags2name.vwalues() for j in i}#缓存所有名称的当前值
 
         self.name2point = {}
 

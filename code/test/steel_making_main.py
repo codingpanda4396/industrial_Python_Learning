@@ -71,7 +71,7 @@ logger2 = Logger('steel_fit')
 logger2.file_on_with_rotation('logs/steel_fit.log')
 # logger.screen_on()
 
-# 配置主模块
+# 配置主模块 
 sender_1 = Sender(data_1, mysql_pool, logger, "172.16.1.20")
 sender_2 = Sender(data_2, mysql_pool, logger, "172.16.1.21")
 sender_3 = Sender(data_3, mysql_pool, logger, "192.168.1.215")

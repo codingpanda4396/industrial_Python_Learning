@@ -272,7 +272,7 @@ class S7data:
 
     def make_point(self, name, point_type = Statepoint):
         """
-        创建并返回一个 point_type 类型的点对象，并根据 name 将其存储到 target_from_name 字典中。
+        创建并返回一个 point_type 类型的点对象，并加入s7data的内部系统，以备后续存储数据、监听变化。
         
         Args:
             name (str): 点的名称。如果名称长度大于3且符合特定模式（如"name[index]"），则会被解析并可能创建多维存储结构。
